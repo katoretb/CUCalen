@@ -20,7 +20,7 @@ Payload
 ```
 > **NOTE:** firstname without prefix
 
-Resopnse
+Response
 ```
 {
     status_code: int,
@@ -41,7 +41,7 @@ Payload
 }
 ```
 
-Resopnse
+Response
 ```
 {
     status_code: int,
@@ -61,7 +61,7 @@ Payload
 }
 ```
 
-Resopnse
+Response
 ```
 {
     .....
@@ -79,7 +79,7 @@ Payload
 }
 ```
 
-Resopnse
+Response
 ```
 {
     .....
