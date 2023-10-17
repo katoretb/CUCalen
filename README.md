@@ -68,7 +68,7 @@ Response
 }
 ```
 
-### get_calender
+### get_calendar
 
 Method GET
 
