@@ -22,7 +22,7 @@ info ....
 
 ### <a name="u"></a>User
 
-- #### <a name="u1"></a> * register (POST)
+- #### <a name="u1"></a>register (POST)
 
 Payload
 ```js
