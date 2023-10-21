@@ -91,9 +91,17 @@ Payload
 {   
     firstname: string,
     surname: string,
-    sid: string,
     username: string,
-    password: string(sha256)
+    working_hour: [
+        {
+            days: int,
+            hours: [
+                [(hour), (minute)],
+                [(hour), (minute)]
+            ]
+        },
+        ...
+    ]
 }
 ```
 > **NOTE:** firstname without prefix
