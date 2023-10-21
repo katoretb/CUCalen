@@ -8,16 +8,21 @@ info ....
    - [Register](#u1)
    - [Login](#u2)
    - [Get user data](#u3)
+   - [Edit user data](#u4)
  - [Calendar](#c)
    - [Get calendar](#c1)
    - [Add event](#c2)
    - [Remove event](#c3)
    - [Edit event](#c4)
+   - [Get subject](#c5)
+   - [Add subject](#c6)
+   - [Remove subject](#c7)
+   - [Edit subject](#c8)
 
 
 ### <a name="u"></a>User
 
-#### <a name="u1"></a>register (POST)
+- #### <a name="u1"></a> * register (POST)
 
 Payload
 ```js
@@ -40,7 +45,7 @@ Response
 }
 ```
 
-#### <a name="u2"></a>login (POST)
+- #### <a name="u2"></a>login (POST)
 
 Payload
 ```js
@@ -59,7 +64,7 @@ Response
 }
 ```
 
-#### <a name="u3"></a>get_user_data (POST)
+- #### <a name="u3"></a>get_user_data (POST)
 
 Payload
 ```js
@@ -79,9 +84,32 @@ Response
 }
 ```
 
+- #### <a name="u4"></a>register (POST)
+
+Payload
+```js
+{   
+    firstname: string,
+    surname: string,
+    sid: string,
+    username: string,
+    password: string(sha256)
+}
+```
+> **NOTE:** firstname without prefix
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+    token: string
+}
+```
+
 ### <a name="c"></a>calendar
 
-#### <a name="c1"></a>get_calendar (POST)
+- #### <a name="c1"></a>get_calendar (POST)
 
 Payload
 ```js
@@ -95,9 +123,9 @@ Response
 {
     sub_list: [
         {
-            SubID: (int),
-            SubNa: (str),
-            MidEx: [
+            subject_id: (int),
+            subject_name: (str),
+            midterm_exam: [
                 (int-day),
                 (int-month),
                 (int-year),
@@ -112,7 +140,7 @@ Response
                     ]
                 ]
             ],
-            FinEx: [
+            final_exam: [
                 (int-day),
                 (int-month),
                 (int-year),
@@ -127,7 +155,7 @@ Response
                     ]
                 ]
             ],
-            Class: [
+            class: [
                 [
                     (int-day),
                     (str-type),
@@ -178,7 +206,7 @@ Response
 }
 ```
 
-#### <a name="c2"></a>add_event (POST)
+- #### <a name="c2"></a>add_event (POST)
 
 Payload
 ```js
@@ -218,7 +246,7 @@ Response
 }
 ```
 
-#### <a name="c3"></a>remove_event (POST)
+- #### <a name="c3"></a>remove_event (POST)
 
 Payload
 ```js
@@ -236,7 +264,7 @@ Response
 }
 ```
 
-#### <a name="c4"></a>edit_event (POST)
+- #### <a name="c4"></a>edit_event (POST)
 
 Payload
 ```js
@@ -272,7 +300,7 @@ Response
 }
 ```
 
-#### <a name="c5"></a>get_subjects (POST)
+- #### <a name="c5"></a>get_subjects (POST)
 
 Payload
 ```js
@@ -287,9 +315,9 @@ Response
     subjects: [
         {
             subject_id: int,
-            courseno: (7)int,
-            year: (4)int,
-            semester: (1)int,
+            courseno: int,
+            year: int,
+            semester: int,
             studyProgram: str,
             section: int
         },
@@ -298,16 +326,16 @@ Response
 }
 ```
 
-#### <a name="c6"></a>add_subject (POST)
+- #### <a name="c6"></a>add_subject (POST)
 
 Payload
 ```js
 {
     subjects: [
         {
-            courseno: (7)int,
-            year: (4)int,
-            semester: (1)int,
+            courseno: int,
+            year: int,
+            semester: int,
             studyProgram: str,
             section: int
         },
@@ -325,7 +353,7 @@ Response
 }
 ```
 
-#### <a name="c7"></a>remove_subject (POST)
+- #### <a name="c7"></a>remove_subject (POST)
 
 Payload
 ```js
@@ -346,14 +374,15 @@ Response
 }
 ```
 
-#### <a name="c8"></a>edit_subject (POST)
+- #### <a name="c8"></a>edit_subject (POST)
 
 Payload
 ```js
 {
-    courseno: (7)int,
-    year: (4)int,
-    semester: (1)int,
+    courseno: int,
+    courseno: int,
+    year: int,
+    semester: int,
     studyProgram: str,
     section: int
 }
