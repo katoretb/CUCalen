@@ -12,9 +12,7 @@ info ....
 
 ### <a name="u"></a>User
 
-#### <a name="u1"></a>Create account
-
-Method POST
+#### <a name="u1"></a>Create account (POST)
 
 Payload
 ```
@@ -37,9 +35,7 @@ Response
 }
 ```
 
-#### <a name="u2"></a>Login
-
-Method POST
+#### <a name="u2"></a>Login (POST)
 
 Payload
 ```
@@ -58,9 +54,7 @@ Response
 }
 ```
 
-#### <a name="u3"></a>get_user_data
-
-Method POST
+#### <a name="u3"></a>get_user_data (POST)
 
 Payload
 ```
@@ -82,9 +76,7 @@ Response
 
 ### calendar
 
-#### get_calendar
-
-Method POST
+#### get_calendar (POST)
 
 Payload
 ```
