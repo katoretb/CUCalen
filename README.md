@@ -10,6 +10,9 @@ info ....
    - [Get user data](#u3)
  - [Calendar](#c)
    - [Get calendar](#c1)
+   - [Add event](#c2)
+   - [Remove event](#c3)
+   - [Edit event](#c4)
 
 
 ### <a name="u"></a>User
@@ -147,22 +150,121 @@ Response
             ]
         },
         ...
+    ],
+    event_list: [
+        {
+            event_id: (int),
+            event_title: (str),
+            event_des: (str),
+            event_date: [
+                [
+                    (int-day),
+                    (int-month),
+                    (int-year),
+                    (int-hour),
+                    (int-min)
+                ],
+                [
+                    (int-day),
+                    (int-month),
+                    (int-year),
+                    (int-hour),
+                    (int-min)
+                ]
+            ]
+        },
+        ...
     ]
 }
 ```
 
-#### <a name=""></a> (POST)
+#### <a name="c2"></a>add_event (POST)
 
 Payload
 ```js
 {
-
+    events:[
+        {
+            event_title: (str),
+            event_des: (str),
+            event_date: [
+                [
+                    (int-day),
+                    (int-month),
+                    (int-year),
+                    (int-hour),
+                    (int-min)
+                ],
+                [
+                    (int-day),
+                    (int-month),
+                    (int-year),
+                    (int-hour),
+                    (int-min)
+                ]
+            ]
+        },
+        ...
+    ]
 }
 ```
 
 Response
 ```js
 {
+    status_code: int,
+    success: boolean,
+}
+```
 
+#### <a name="c3"></a>remove_event (POST)
+
+Payload
+```js
+{
+    event_id: (int)
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+}
+```
+
+#### <a name="c4"></a>edit_event (POST)
+
+Payload
+```js
+{
+    event_id: (int),
+    event_title: (str),
+    event_des: (str),
+    event_date: [
+        [
+            (int-day),
+            (int-month),
+            (int-year),
+            (int-hour),
+            (int-min)
+        ],
+        [
+            (int-day),
+            (int-month),
+            (int-year),
+            (int-hour),
+            (int-min)
+        ]
+    ]
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
 }
 ```
