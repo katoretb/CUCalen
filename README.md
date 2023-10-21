@@ -214,6 +214,7 @@ Response
 {
     status_code: int,
     success: boolean,
+    message: str
 }
 ```
 
@@ -231,6 +232,7 @@ Response
 {
     status_code: int,
     success: boolean,
+    message: str
 }
 ```
 
@@ -266,5 +268,102 @@ Response
 {
     status_code: int,
     success: boolean,
+    message: str
+}
+```
+
+#### <a name="c5"></a>get_subjects (POST)
+
+Payload
+```js
+{
+    secret_code: string
+}
+```
+
+Response
+```js
+{
+    subjects: [
+        {
+            subject_id: int,
+            courseno: (7)int,
+            year: (4)int,
+            semester: (1)int,
+            studyProgram: str,
+            section: int
+        },
+        ...
+    ]
+}
+```
+
+#### <a name="c6"></a>add_subject (POST)
+
+Payload
+```js
+{
+    subjects: [
+        {
+            courseno: (7)int,
+            year: (4)int,
+            semester: (1)int,
+            studyProgram: str,
+            section: int
+        },
+        ...
+    ]
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+    message: str
+}
+```
+
+#### <a name="c7"></a>remove_subject (POST)
+
+Payload
+```js
+{
+    subjects:[
+        int,
+        ...
+    ]
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+    message: str
+}
+```
+
+#### <a name="c8"></a>edit_subject (POST)
+
+Payload
+```js
+{
+    courseno: (7)int,
+    year: (4)int,
+    semester: (1)int,
+    studyProgram: str,
+    section: int
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+    message: str
 }
 ```
