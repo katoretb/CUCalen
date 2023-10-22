@@ -28,7 +28,7 @@ Payload
 ```js
 {   
     firstname: string,
-    surname: string,
+    lastname: string,
     sid: string,
     username: string,
     password: string(sha256)
@@ -78,7 +78,7 @@ Response
 {
     secret_code: string,
     firstname: string,
-    surname: string,
+    lastname: string,
     sid: string,
     username: string
 }
@@ -90,7 +90,7 @@ Payload
 ```js
 {   
     firstname: string,
-    surname: string,
+    lastname: string,
     username: string,
     working_hour: [
         {
