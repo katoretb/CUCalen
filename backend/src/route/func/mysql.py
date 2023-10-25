@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mydb = MySQLdb.connect(
+db = MySQLdb.connect(
  host = getenv('host'),
  user = getenv('user'),
  password = getenv('pass'),
  database = "CUCalen"
 )
 
-mycursor = mydb.cursor()
+cursor = db.cursor()
 
 print("test")
