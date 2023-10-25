@@ -23,7 +23,7 @@ def main():
             }
             return jsonify(x)
 
-        cursor.execute("SELECT password, token FROM users")
+        cursor.execute(f"SELECT password, token FROM users WHERE sid='{sid}'")
         result = cursor.fetchall()
         if len(result) == 0:
             x = {
