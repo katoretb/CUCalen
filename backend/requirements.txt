@@ -1,1 +1,6 @@
 Flask
+mysqlclient
+python-dotenv
+os
+importlib
+json
