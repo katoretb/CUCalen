@@ -41,7 +41,8 @@ Response
 {
     status_code: int,
     success: boolean,
-    token: string
+    token: string,
+    message: string
 }
 ```
 
@@ -60,7 +61,8 @@ Response
 {
     status_code: int,
     success: boolean,
-    token: string
+    token: string,
+    message: string
 }
 ```
 
