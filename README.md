@@ -8,7 +8,7 @@ info ....
    - [Register](#u1) :white_check_mark:
    - [Login](#u2) :white_check_mark:
    - [Get user data](#u3) :white_check_mark:
-   - [Edit user data](#u4)
+   - [Edit user data](#u4) :white_check_mark:
  - [Calendar](#c)
    - [Get calendar](#c1)
    - [Add event](#c2)
