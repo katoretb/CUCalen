@@ -5,9 +5,9 @@ info ....
 ## API
 
  - [User](#u)
-   - [Register](#u1)
-   - [Login](#u2)
-   - [Get user data](#u3)
+   - [Register](#u1) :white_check_mark:
+   - [Login](#u2) :white_check_mark:
+   - [Get user data](#u3) :white_check_mark:
    - [Edit user data](#u4)
  - [Calendar](#c)
    - [Get calendar](#c1)
