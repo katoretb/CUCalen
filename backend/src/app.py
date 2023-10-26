@@ -16,7 +16,7 @@ app = Flask(__name__)
 #add route to /
 @app.route('/')
 def index():
-    return Response("I'm not a teapot so I sent 418 error.", status=418, mimetype='application/json')
+    return Response("I'm a teapot so I sent 418 error.", status=418, mimetype='application/json')
 
 #loop add route to api server
 for i in gbl['list_route']:

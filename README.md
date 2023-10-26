@@ -86,24 +86,50 @@ Response
     firstname: string,
     lastname: string,
     sid: string,
-    username: string
+    username: string,
+    working_hour: [
+        {
+            day: int,
+            hours: [
+                [(hour), (minute)],
+                [(hour), (minute)]
+            ],
+            busy_hours: [
+                [
+                    [(hour), (minute)],
+                    [(hour), (minute)]
+                ],
+                ...
+            ]
+        },
+        ...
+    ]
 }
 ```
 
-- #### <a name="u4"></a>register (POST)
+- #### <a name="u4"></a>edit_user_data (POST)
 
 Payload
 ```js
 {   
+    sid: str,
     firstname: string,
     lastname: string,
     username: string,
+    token: string,
     working_hour: [
         {
-            days: int,
+            day: int,
             hours: [
                 [(hour), (minute)],
                 [(hour), (minute)]
+            ],
+            busy_hours: [
+                [
+                    [(hour), (minute)],
+                    [(hour), (minute)]
+                ],
+                ...
             ]
         },
         ...
@@ -116,8 +142,8 @@ Response
 ```js
 {
     status_code: int,
-    success: boolean,
-    token: string
+    success: booleans,
+    message: string
 }
 ```
 

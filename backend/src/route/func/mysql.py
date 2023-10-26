@@ -12,5 +12,3 @@ db = MySQLdb.connect(
 )
 
 cursor = db.cursor()
-
-print("test")

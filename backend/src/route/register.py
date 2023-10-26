@@ -40,10 +40,16 @@ def main():
         default_working_hour = []
         for i in range(7):
             x = {
-                "days": i+1,
+                "day": i+1,
                 "hours": [
                     [8, 0],
                     [16, 0]
+                ],
+                "busy_hours": [
+                    [
+                        [12, 0],
+                        [13, 0]
+                    ]
                 ]
             }
             default_working_hour.append(x)

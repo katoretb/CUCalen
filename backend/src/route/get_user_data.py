@@ -12,7 +12,8 @@ def guderr(code, msg):
         "firstname": "",
         "lastname": "",
         "sid": "",
-        "username": ""
+        "username": "",
+        "working_hour": []
     }
     return jsonify(x)
 
@@ -26,7 +27,7 @@ def main():
         if err:
             return guderr(400, "Sid in invalid")
 
-        cursor.execute(f"SELECT username, firstname, lastname, token, secret_code FROM users WHERE sid='{sid}'")
+        cursor.execute(f"SELECT username, firstname, lastname, token, secret_code, working_hour FROM users WHERE sid='{sid}'")
         result = cursor.fetchall()
         if len(result) == 0:
             return guderr(400, "user not found")
@@ -47,7 +48,8 @@ def main():
             "firstname": result[0][1],
             "lastname": result[0][2],
             "sid": sid,
-            "username": result[0][0]
+            "username": result[0][0],
+            "working_hour": json.loads(result[0][5])
         }
         return jsonify(x)
     except:
