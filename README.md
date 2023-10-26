@@ -4,10 +4,10 @@ info ....
 
 ## API
 
- - [User](#u)
-   - [Register](#u1)
-   - [Login](#u2)
-   - [Get user data](#u3)
+ - [User](#u) :heavy_check_mark:
+   - [Register](#u1) :heavy_check_mark:
+   - [Login](#u2) :heavy_check_mark:
+   - [Get user data](#u3) :heavy_check_mark:
    - [Edit user data](#u4)
  - [Calendar](#c)
    - [Get calendar](#c1)
