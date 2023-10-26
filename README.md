@@ -41,7 +41,8 @@ Response
 {
     status_code: int,
     success: boolean,
-    token: string
+    token: string,
+    message: string
 }
 ```
 
@@ -60,7 +61,8 @@ Response
 {
     status_code: int,
     success: boolean,
-    token: string
+    token: string,
+    message: string
 }
 ```
 
@@ -69,6 +71,7 @@ Response
 Payload
 ```js
 {
+    sid: string,
     token: string
 }
 ```
@@ -76,6 +79,9 @@ Payload
 Response
 ```js
 {
+    status_code: int,
+    success: boolean,
+    message: string,
     secret_code: string,
     firstname: string,
     lastname: string,
