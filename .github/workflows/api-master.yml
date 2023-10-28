@@ -1,9 +1,6 @@
 name: Build API IMAGE for MASTER and Push to Docker Hub
 
 on:
-  push:
-    branches: [master]
-    paths: [backend/**]
   pull_request:
     branches: [master]
     types: [closed]
