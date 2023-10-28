@@ -30,7 +30,7 @@ jobs:
             onevzz/cucalen-bazooka
           flavor: |
             latest=true
-            prefix=frontend,onlatest=true
+            prefix=frontend-,onlatest=true
           tags: |
             type=ref,event=branch
             type=ref,event=pr
