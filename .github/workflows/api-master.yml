@@ -12,7 +12,7 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    if: github.ref == "refs/heads/master"
+    if: github.ref == 'refs/heads/master'
     steps:
       -
         name: Set up QEMU
