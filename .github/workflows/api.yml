@@ -5,6 +5,7 @@ on:
   push:
     branches: [master, testing]
     paths: [backend/**]
+    tags: [ v* ]
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
     paths: [backend/**]
