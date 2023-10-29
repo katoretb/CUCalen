@@ -11,10 +11,9 @@ on:
 
 env:
   # Use docker.io for Docker Hub (Default) / Use ghcr.io for GitHub Container Registry
-  REGISTRY: docker.io
+  REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: onevzz/cucalen-bazooka
-  #IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   docker:
@@ -64,11 +63,11 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           # Username and Password for DOCKER HUB
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          #username: ${{ secrets.DOCKERHUB_USERNAME }}
+          #password: ${{ secrets.DOCKERHUB_TOKEN }}
           # Username and Password for GITHUB CONTAINER REGISTRY
-          #username: ${{ github.actor }}
-          #password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build and Push Docker Image
         id: build-and-push
