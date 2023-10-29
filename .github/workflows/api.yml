@@ -1,5 +1,4 @@
 name: API
-# PUT YOUR DOCKER HUB REPOSITORY INFORMATION IN LINE 30
 
 on:
   push:
@@ -10,12 +9,33 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
     paths: [backend/**]
 
+env:
+  # Use docker.io for Docker Hub (Default) / Use ghcr.io for GitHub Container Registry
+  REGISTRY: docker.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: onevzz/cucalen-bazooka
+  #IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   docker:
     # Ensures that docker action will not run on pull requests in draft state
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # Used to complete the identity challenge with sigstore/fulcio
+      id-token: write
     steps:
+      -
+        name: Checkout repository
+        uses: actions/checkout@v3
+      -
+        name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3.1.2
+        with:
+          cosign-release: 'v2.2.0'
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -23,12 +43,12 @@ jobs:
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       -
-        name: Docker meta
+        name: Docker Metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: |
-            onevzz/cucalen-bazooka
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: |
             latest=true
             prefix=api-,onlatest=true
@@ -38,18 +58,40 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
       -
-        name: Login to Docker Hub
+        name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
+          registry: ${{ env.REGISTRY }}
+          # Username and Password for DOCKER HUB
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          # Username and Password for GITHUB CONTAINER REGISTRY
+          #username: ${{ github.actor }}
+          #password: ${{ secrets.GITHUB_TOKEN }}
       -
-        name: Build and Push
+        name: Build and Push Docker Image
+        id: build-and-push
         uses: docker/build-push-action@v5
         with:
           context: "{{defaultContext}}:backend"
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      # Sign the resulting Docker Image
+      # https://github.com/sigstore/cosign
+      # This will only write to the public Rekor transparency log when the Docker
+      # repository is public to avoid leaking data.  If you would like to publish
+      # transparency data even for private images, pass --force to cosign below.
+      - name: Sign the Published Docker Image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: ${{ steps.meta.outputs.tags }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
