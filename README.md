@@ -1,438 +1,50 @@
-# CUcalendar
+# CU-CALENDAR BAZOOKA!
 
-info ....
+This Repository serves as a testing ground for my contribution to the project.
+Due to the experimental nature of my features, wacky errors are common.
+Feel free to gather handy information here, but don't be too surprised if you happen to find out that
+the comprehension rate of you towards this repository is very low. It's wacky, after all.
 
-## API
+## Why BAZOOKA?
 
- - [User](#u)
-   - [Register](#u1) :white_check_mark:
-   - [Login](#u2) :white_check_mark:
-   - [Get user data](#u3) :white_check_mark:
-   - [Edit user data](#u4) :white_check_mark:
- - [Calendar](#c)
-   - [Get calendar](#c1)
-   - [Add event](#c2)
-   - [Remove event](#c3)
-   - [Edit event](#c4)
-   - [Get subject](#c5)
-   - [Add subject](#c6)
-   - [Remove subject](#c7)
-   - [Edit subject](#c8)
+Testing out features in a way that's comparable to SPAMMING 360 NO SCOPE WITH A BAZOOKA!
+Also because "Bazooka" is one funny word, at least to me.
 
+## Something to note
 
-### <a name="u"></a>User
+1) All Docker Images prior to the release of [BAZOOKA] was deleted.
 
-- #### <a name="u1"></a>register (POST)
+- v2.3.0 for Version 2 (DOCKER HUB VERSION) [BAZOOKA]
+- v3.1.0 for Version 3 (GHCR VERSION) [BAZOOKA]
 
-Payload
-```js
-{   
-    firstname: string,
-    lastname: string,
-    sid: string,
-    username: string,
-    password: string(sha256)
-}
-```
-> **NOTE:** firstname without prefix
+2) All GitHub Action Logs prior to firing the BAZOOKA (commit 4e329f0) was also deleted.
 
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    token: string,
-    message: string
-}
-```
+So that's why you cannot find any of these artifacts anymore.
 
-- #### <a name="u2"></a>login (POST)
+3) Throughout all versions there's a noticable change in the way packages are tagged.
+I wouldn't recommend any config prior to [BAZOOKA] if you cared about Semantic Versioning
+because it recognizes beta versions as latest. The way semver works is different too, but that's just preference.
 
-Payload
-```js
-{
-    sid: string,
-    password: string(sha256)
-}
-```
+## Development Logs (Versions)
 
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    token: string,
-    message: string
-}
-```
+### Version 1 (1.0.0 and beyond)
 
-- #### <a name="u3"></a>get_user_data (POST)
+- v1.2.4 is nothing more than just a payload to trigger GitHub Actions
+- That's it, there's only one in this group
 
-Payload
-```js
-{
-    sid: string,
-    token: string
-}
-```
+### Version 2 (2.0.0 and beyond) (DOCKER HUB VERSION)
 
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: string,
-    secret_code: string,
-    firstname: string,
-    lastname: string,
-    sid: string,
-    username: string,
-    working_hour: [
-        {
-            day: int,
-            hours: [
-                [(hour), (minute)],
-                [(hour), (minute)]
-            ],
-            busy_hours: [
-                [
-                    [(hour), (minute)],
-                    [(hour), (minute)]
-                ],
-                ...
-            ]
-        },
-        ...
-    ]
-}
-```
+- v2.0.0 [NONE] introduces both frontend and backend integration (CI)
+- v2.1.0 [OPTIMIZED] is the optimized version of v2.0.0 (does not login when not needed)
+- v2.2.0 [GODMODE] introduces signing the packages using sigstore/cosign (removed in v2.3.0)
+- v2.2.1 [GODMODE-WITH-SCRIPT] introduces automatefrontend.sh to help with creating the frontend.yml file
+- v2.3.0 [BAZOOKA] removed sigstore/cosign integration because of it being too much of a hassle for us
 
-- #### <a name="u4"></a>edit_user_data (POST)
+### Version 3 (3.0.0 and beyond) (GHCL Version)
 
-Payload
-```js
-{   
-    sid: str,
-    firstname: string,
-    lastname: string,
-    username: string,
-    token: string,
-    working_hour: [
-        {
-            day: int,
-            hours: [
-                [(hour), (minute)],
-                [(hour), (minute)]
-            ],
-            busy_hours: [
-                [
-                    [(hour), (minute)],
-                    [(hour), (minute)]
-                ],
-                ...
-            ]
-        },
-        ...
-    ]
-}
-```
-> **NOTE:** firstname without prefix
+- GHCL stands for "GitHub Container Registry"
+- v3.0.0 [GODMODE] same with v2.2.0 except that it pushes to GHCL rather than Docker Hub
+- v3.1.0 [BAZOOKA] same with v2.3.0 except that it pushes to GHCL rather than Docker Hub
+- v3.2.0 [SANE-SEMVER] the first sane version since OPTIMIZED, utilizing Semantic Versioning
+- v3.2.1 [SANE-TAG] like v3.2.0 but instead of utilizing semver, it just tags the packages using the corresponding git tag
 
-Response
-```js
-{
-    status_code: int,
-    success: booleans,
-    message: string
-}
-```
-
-### <a name="c"></a>calendar
-
-- #### <a name="c1"></a>get_calendar (POST)
-
-Payload
-```js
-{
-    secret_code: string
-}
-```
-
-Response
-```js
-{
-    sub_list: [
-        {
-            subject_id: (int),
-            subject_name: (str),
-            midterm_exam: [
-                (int-day),
-                (int-month),
-                (int-year),
-                [
-                    [
-                        (int-hour),
-                        (int-min)
-                    ],
-                    [
-                        (int-hour),
-                        (int-min)
-                    ]
-                ]
-            ],
-            final_exam: [
-                (int-day),
-                (int-month),
-                (int-year),
-                [
-                    [
-                        (int-hour),
-                        (int-min)
-                    ],
-                    [
-                        (int-hour),
-                        (int-min)
-                    ]
-                ]
-            ],
-            class: [
-                [
-                    (int-day),
-                    (str-type),
-                    [
-                        (str-building),
-                        (str-room)
-                    ],
-                    [
-                        [
-                            (int-hour),
-                            (int-min)
-                        ],
-                        [
-                            (int-hour),
-                            (int-min)
-                        ]
-                    ]
-                ],
-                ...
-            ]
-        },
-        ...
-    ],
-    event_list: [
-        {
-            event_id: (int),
-            event_title: (str),
-            event_des: (str),
-            event_date: [
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
-                ],
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
-                ]
-            ]
-        },
-        ...
-    ]
-}
-```
-
-- #### <a name="c2"></a>add_event (POST)
-
-Payload
-```js
-{
-    events:[
-        {
-            event_title: (str),
-            event_des: (str),
-            event_date: [
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
-                ],
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
-                ]
-            ]
-        },
-        ...
-    ]
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
-
-- #### <a name="c3"></a>remove_event (POST)
-
-Payload
-```js
-{
-    event_id: (int)
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
-
-- #### <a name="c4"></a>edit_event (POST)
-
-Payload
-```js
-{
-    event_id: (int),
-    event_title: (str),
-    event_des: (str),
-    event_date: [
-        [
-            (int-day),
-            (int-month),
-            (int-year),
-            (int-hour),
-            (int-min)
-        ],
-        [
-            (int-day),
-            (int-month),
-            (int-year),
-            (int-hour),
-            (int-min)
-        ]
-    ]
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
-
-- #### <a name="c5"></a>get_subjects (POST)
-
-Payload
-```js
-{
-    secret_code: string
-}
-```
-
-Response
-```js
-{
-    subjects: [
-        {
-            subject_id: int,
-            courseno: int,
-            year: int,
-            semester: int,
-            studyProgram: str,
-            section: int
-        },
-        ...
-    ]
-}
-```
-
-- #### <a name="c6"></a>add_subject (POST)
-
-Payload
-```js
-{
-    subjects: [
-        {
-            courseno: int,
-            year: int,
-            semester: int,
-            studyProgram: str,
-            section: int
-        },
-        ...
-    ]
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
-
-- #### <a name="c7"></a>remove_subject (POST)
-
-Payload
-```js
-{
-    subjects:[
-        int,
-        ...
-    ]
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
-
-- #### <a name="c8"></a>edit_subject (POST)
-
-Payload
-```js
-{
-    courseno: int,
-    courseno: int,
-    year: int,
-    semester: int,
-    studyProgram: str,
-    section: int
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
