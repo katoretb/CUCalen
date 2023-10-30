@@ -45,10 +45,8 @@ jobs:
             prefix=api-,onlatest=true
           tags: |
             type=ref,event=branch
+            type=ref,event=tag
             type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
       -
         name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
