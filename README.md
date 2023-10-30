@@ -1,5 +1,7 @@
 # CU-CALENDAR BAZOOKA!
 
+![BAZOOKA!](bazooka.jpg)
+
 This Repository serves as a testing ground for my contribution to the project.
 Due to the experimental nature of my features, wacky errors are common.
 Feel free to gather handy information here, but don't be too surprised if you happen to find out that
