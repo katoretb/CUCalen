@@ -23,18 +23,10 @@ jobs:
     permissions:
       contents: read
       packages: write
-      # Used to complete the identity challenge with sigstore/fulcio
-      id-token: write
     steps:
       -
         name: Checkout repository
         uses: actions/checkout@v3
-      -
-        name: Install cosign
-        if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@v3.1.2
-        with:
-          cosign-release: 'v2.2.0'
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -80,18 +72,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      # Sign the resulting Docker Image
-      # https://github.com/sigstore/cosign
-      # This will only write to the public Rekor transparency log when the Docker
-      # repository is public to avoid leaking data.  If you would like to publish
-      # transparency data even for private images, pass --force to cosign below.
-      - name: Sign the Published Docker Image
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        # This step uses the identity token to provision an ephemeral certificate
-        # against the sigstore community Fulcio instance.
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
