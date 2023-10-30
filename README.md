@@ -37,7 +37,7 @@ because it recognizes beta versions as latest. The way semver works is different
 - v2.0.0 [NONE] introduces both frontend and backend integration (CI)
 - v2.1.0 [OPTIMIZED] is the optimized version of v2.0.0 (does not login when not needed)
 - v2.2.0 [GODMODE] introduces signing the packages using sigstore/cosign (removed in v2.3.0)
-- v2.2.1 [GODMODE-WITH-SCRIPT] introduces automatefrontend.sh to help with creating the frontend.yml file
+- v2.2.1 [GODMODE-WITH-SCRIPT] introduces a script to help with creating the frontend.yml file
 - v2.3.0 [BAZOOKA] removed sigstore/cosign integration because of it being too much of a hassle for us
 
 ### Version 3 (3.0.0 and beyond) (GHCL Version)
