@@ -5,7 +5,8 @@ from flask import request, jsonify
 from route.func.encrypt import encrypt_string
 from route.func.valid_sid import valid_sid
 import json
-
+import pyotp
+from route.func.mkqrbase64 import mb64qr
 
 def main():
     try:
@@ -58,18 +59,22 @@ def main():
         salt = ''.join(choice(ascii_letters+digits) for i in range(20))
         password = f'{encrypt_string(password+salt, "sha256")}${salt}'
         token = {ip: encrypt_string(''.join(choice(ascii_letters+digits) for i in range(20))+sid+ip, "sha256")}
-
-        cursor.execute(f"INSERT INTO users (sid, username, firstname, lastname, password, working_hour, subjects, token, secret_code) VALUES ('{sid}', '{un}', '{fn}', '{ln}', '{password}', '{json.dumps(default_working_hour)}', '{{}}', '{json.dumps(token)}', '{sc}')")
+        k = pyotp.random_base32()
+        cursor.execute(f"INSERT INTO users (sid, username, firstname, lastname, password, working_hour, subjects, token, secret_code, authkey) VALUES ('{sid}', '{un}', '{fn}', '{ln}', '{password}', '{json.dumps(default_working_hour)}', '{{}}', '{json.dumps(token)}', '{sc}', {k})")
         db.commit()
         cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'add user sid={sid}')")
         db.commit()
         cursor.execute(f"CREATE TABLE {sid}_events (id INT NOT NULL AUTO_INCREMENT , event_title VARCHAR(256) NOT NULL , event_des VARCHAR(256) NOT NULL , event_start DATETIME NOT NULL , event_end DATETIME NOT NULL , PRIMARY KEY (id))")
-
+        totp_auth = pyotp.totp.TOTP(k).provisioning_uri( 
+            name=sid, 
+            issuer_name='CUCalen'
+        ) 
         x = {
             "status_code": 200,
             "success": True,
             "token": token[ip],
-            "message": "Add account success"
+            "message": "Add account success",
+            "qr": mb64qr(totp_auth)
         }
         return jsonify(x)
     except:
