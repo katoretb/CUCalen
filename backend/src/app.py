@@ -25,4 +25,4 @@ for i in gbl['list_route']:
 
 #start api server
 if __name__ == "__main__":
-    app.run(debug=True, port=3000)
+    app.run(debug=True, port=5000)
