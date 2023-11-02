@@ -3,14 +3,6 @@ from flask import request, jsonify
 from route.func.valid_sid import valid_sid
 import json
 
-def guderr(code, msg):
-    x = {
-        "status_code": code,
-        "success": False,
-        "message": msg
-    }
-    return jsonify(x)
-
 def main():
     try:
         data = request.get_json()
@@ -23,18 +15,33 @@ def main():
         ip = request.remote_addr
         _, err = valid_sid(sid)
         if err:
-            return guderr(400, "Sid in invalid")
+            x = {
+                "status_code": 400,
+                "success": False,
+                "message": "Sid in invalid"
+            }
+            return jsonify(x)
 
         cursor.execute(f"SELECT token, working_hour FROM users WHERE sid='{sid}'")
         result = cursor.fetchall()
         whdb = json.loads(result[0][1])
         if len(result) == 0:
-            return guderr(400, "user not found")
+            x = {
+                "status_code": 400,
+                "success": False,
+                "message": "user not found"
+            }
+            return jsonify(x)
         tokendb = json.loads(result[0][0])
         if token not in tokendb.values():
             cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'trying to eidt user sid={sid} data but token is unauthorized')")
             db.commit()
-            return guderr(400, "token is unauthorized")
+            x = {
+                "status_code": 400,
+                "success": False,
+                "message": "token is unauthorized"
+            }
+            return jsonify(x)
         
         if len(wh) < 7:
             for i in wh:
@@ -57,4 +64,9 @@ def main():
         }
         return jsonify(x)
     except:
-        return guderr(500, "Process error")
+        x = {
+            "status_code": 500,
+            "success": False,
+            "message": "Process error"
+        }
+        return jsonify(x)

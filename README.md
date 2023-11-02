@@ -41,9 +41,11 @@ Response
 {
     status_code: int,
     success: boolean,
-    token: string,
     message: string,
-    qr: string
+    data: {
+        token: string,
+        qr: string
+    }
 }
 ```
 
@@ -62,8 +64,10 @@ Response
 {
     status_code: int,
     success: boolean,
-    token: string,
-    message: string
+    message: string,
+    data: {
+        token: string
+    }
 }
 ```
 
@@ -83,28 +87,30 @@ Response
     status_code: int,
     success: boolean,
     message: string,
-    secret_code: string,
-    firstname: string,
-    lastname: string,
-    sid: string,
-    username: string,
-    working_hour: [
-        {
-            day: int,
-            hours: [
-                [(hour), (minute)],
-                [(hour), (minute)]
-            ],
-            busy_hours: [
-                [
+    data: {
+        secret_code: string,
+        firstname: string,
+        lastname: string,
+        sid: string,
+        username: string,
+        working_hour: [
+            {
+                day: int,
+                hours: [
                     [(hour), (minute)],
                     [(hour), (minute)]
                 ],
-                ...
-            ]
-        },
-        ...
-    ]
+                busy_hours: [
+                    [
+                        [(hour), (minute)],
+                        [(hour), (minute)]
+                    ],
+                    ...
+                ]
+            },
+            ...
+        ]
+    }
 }
 ```
 
@@ -144,7 +150,8 @@ Response
 {
     status_code: int,
     success: booleans,
-    message: string
+    message: string,
+    data: {}
 }
 ```
 
@@ -160,90 +167,57 @@ Payload
 ```
 
 Response
+> **NOTE:** Datetime format yyyy-mm-ddThh:mm:ss example 2023-11-03T09:00:00
+> **NOTE:** Time format hh:mm:ss example 09:00:00
 ```js
 {
-    sub_list: [
-        {
-            subject_id: (int),
-            subject_name: (str),
-            midterm_exam: [
-                (int-day),
-                (int-month),
-                (int-year),
-                [
+    status_code: int,
+    success: boolean,
+    message: string,
+    data: {
+        sub_list: [
+            {
+                subject_id: (int),
+                subject_name: (str),
+                midterm_exam: [
+                    Datetime,
+                    Datetime
+                ],
+                final_exam: [
+                    Datetime,
+                    Datetime
+                ],
+                class: [
                     [
-                        (int-hour),
-                        (int-min)
-                    ],
-                    [
-                        (int-hour),
-                        (int-min)
-                    ]
-                ]
-            ],
-            final_exam: [
-                (int-day),
-                (int-month),
-                (int-year),
-                [
-                    [
-                        (int-hour),
-                        (int-min)
-                    ],
-                    [
-                        (int-hour),
-                        (int-min)
-                    ]
-                ]
-            ],
-            class: [
-                [
-                    (int-day),
-                    (str-type),
-                    [
-                        (str-building),
-                        (str-room)
-                    ],
-                    [
+                        (int-day) (0-6),
+                        (str-type),
                         [
-                            (int-hour),
-                            (int-min)
+                            (str-building),
+                            (str-room)
                         ],
                         [
-                            (int-hour),
-                            (int-min)
+                            Time,
+                            Time
                         ]
-                    ]
-                ],
-                ...
-            ]
-        },
-        ...
-    ],
-    event_list: [
-        {
-            event_id: (int),
-            event_title: (str),
-            event_des: (str),
-            event_date: [
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
-                ],
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
+                    ],
+                    ...
                 ]
-            ]
-        },
-        ...
-    ]
+            },
+            ...
+        ],
+        event_list: [
+            {
+                event_id: (int),
+                event_title: (str),
+                event_des: (str),
+                event_date: [
+                    Datetime,
+                    Datetime
+                ]
+            },
+            ...
+        ]
+    }
 }
 ```
 
@@ -355,17 +329,22 @@ Payload
 Response
 ```js
 {
-    subjects: [
-        {
-            subject_id: int,
-            courseno: int,
-            year: int,
-            semester: int,
-            studyProgram: str,
-            section: int
-        },
-        ...
-    ]
+    status_code: int,
+    success: boolean,
+    message: string,
+    data: {
+        subjects: [
+            {
+                subject_id: int,
+                courseno: int,
+                year: int,
+                semester: int,
+                studyProgram: str,
+                section: int
+            },
+            ...
+        ]
+    }
 }
 ```
 

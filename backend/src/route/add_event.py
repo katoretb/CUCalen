@@ -29,7 +29,7 @@ def main():
         
         cursor.execute(f"INSERT INTO {sid}_events (event_title, event_des, event_start, event_end, event_color) VALUES ('{event_title}', '{event_des}', '{event_start}', '{event_end}', '{event_color}')")
         db.commit
-        cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'add user sid={sid}')")
+        cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'add event to user sid={sid}')")
         db.commit()
 
         x = {
