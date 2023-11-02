@@ -6,7 +6,7 @@ from route.func.encrypt import encrypt_string
 from route.func.valid_sid import valid_sid
 import json
 
-def guderr(code, msg):
+def guderr(code, msg): #get user data error
     x = {
         "status_code": code,
         "success": False,
