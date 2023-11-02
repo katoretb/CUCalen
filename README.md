@@ -254,6 +254,7 @@ Payload
 {
     events:[
         {
+            sid: stringß
             event_title: (str),
             event_des: (str),
             event_date: [
@@ -271,7 +272,8 @@ Payload
                     (int-hour),
                     (int-min)
                 ]
-            ]
+            ],
+            event_color: string
         },
         ...
     ]

@@ -10,51 +10,50 @@ from route.func.mkqrbase64 import mb64qr
 
 def main():
     try:
-        data = request.get_json()
-        fn = data["firstname"]
-        ln = data["lastname"]
-        sid = data["sid"]
-        un = data["username"]
-        password = data["password"]
-        ip = request.remote_addr
-        _, err = valid_sid(sid)
-        if err:
-            x = {
-                "status_code": 400,
-                "success": False,
-                "token": "",
-                "message": "Sid in invalid"
-            }
-            return jsonify(x)
+      data = request.get_json()
+      fn = data["firstname"]
+      ln = data["lastname"]
+      sid = data["sid"]
+      un = data["username"]
+      password = data["password"]
+      ip = request.remote_addr
+      _, err = valid_sid(sid)
+      if err:
+          x = {
+              "status_code": 400,
+              "success": False,
+              "token": "",
+              "message": "Sid in invalid"
+          }
+          return jsonify(x)
 
-        cursor.execute(f"SELECT sid FROM users WHERE sid='{sid}'")
-        result = cursor.fetchall()
-        if len(result) != 0:
-            x = {
-                "status_code": 400,
-                "success": False,
-                "token": "",
-                "message": "user already exist"
-            }
-            return jsonify(x)
+      cursor.execute(f"SELECT sid FROM users WHERE sid='{sid}'")
+      result = cursor.fetchall()
+      if len(result) != 0:
+          x = {
+              "status_code": 400,
+              "success": False,
+              "token": "",
+              "message": "user already exist"
+          }
+          return jsonify(x)
 
-        default_working_hour = []
-        for i in range(7):
-            x = {
-                "day": i+1,
-                "hours": [
-                    [8, 0],
-                    [16, 0]
-                ],
-                "busy_hours": [
-                    [
-                        [12, 0],
-                        [13, 0]
-                    ]
-                ]
-            }
-            default_working_hour.append(x)
-
+      default_working_hour = []
+      for i in range(7):
+          x = {
+              "day": i+1,
+              "hours": [
+                  [8, 0],
+                  [16, 0]
+              ],
+              "busy_hours": [
+                  [
+                      [12, 0],
+                      [13, 0]
+                  ]
+              ]
+          }
+        default_working_hour.append(x)
         sc = encrypt_string(f'{randrange(1, 10**10):010}'+sid, "md5")
         salt = ''.join(choice(ascii_letters+digits) for i in range(20))
         password = f'{encrypt_string(password+salt, "sha256")}${salt}'
