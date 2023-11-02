@@ -42,7 +42,8 @@ Response
     status_code: int,
     success: boolean,
     token: string,
-    message: string
+    message: string,
+    qr: string
 }
 ```
 
