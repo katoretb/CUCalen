@@ -11,7 +11,7 @@ info ....
    - [Edit user data](#u4) :white_check_mark:
  - [Calendar](#c)
    - [Get calendar](#c1)
-   - [Add event](#c2)
+   - [Add event](#c2) :white_check_mark:
    - [Remove event](#c3)
    - [Edit event](#c4)
    - [Get subject](#c5)
