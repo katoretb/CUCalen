@@ -33,19 +33,20 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - 
-        name: Open Web Client Directory
-        working-directory: ./
-        run: |
-          ls -la
-      # -
-      #   name: Create .env
+      # - 
+      #   name: Open Web Client Directory
+      #   working-directory: ./
       #   run: |
-      #     touch ./route/func/.env
-      #     echo host=${{ secrets.DB_HOST }} >> ./route/func/.env
-      #     echo user=${{ secrets.DB_USER }} >> ./route/func/.env
-      #     echo pass=${{ secrets.DB_PASS }} >> ./route/func/.env
-      #     cat ./route/func/.env
+      #     ls -la
+      -
+        name: Create .env
+        working-directory: ./backend/src/route/func/
+        run: |
+          touch .env
+          echo host=${{ secrets.DB_HOST }} >> .env
+          echo user=${{ secrets.DB_USER }} >> .env
+          echo pass=${{ secrets.DB_PASS }} >> .env
+          cat .env
       -
         name: Docker Metadata
         id: meta
