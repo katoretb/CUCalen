@@ -36,7 +36,11 @@ jobs:
       -
         name: Create .env
         run: |
-          pwd
+          touch ./route/func/.env
+          echo host=${{ secrets.DB_HOST }} >> ./route/func/.env
+          echo user=${{ secrets.DB_USER }} >> ./route/func/.env
+          echo pass=${{ secrets.DB_PASS }} >> ./route/func/.env
+          cat ./route/func/.env
       -
         name: Docker Metadata
         id: meta
