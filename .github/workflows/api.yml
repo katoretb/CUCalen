@@ -25,14 +25,6 @@ jobs:
       packages: write
     steps:
       -
-        name: Create .env
-        run: |
-          touch src/route/func/.env
-          echo host=${{ secrets.DB_HOST }} >> src/route/func/.env
-          echo user=${{ secrets.DB_USER }} >> src/route/func/.env
-          echo pass=${{ secrets.DB_PASS }} >> src/route/func/.env
-          cat src/route/func/.env
-      -
         name: Checkout repository
         uses: actions/checkout@v3
       -
@@ -41,6 +33,14 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      -
+        name: Create .env
+        run: |
+          touch ./src/route/func/.env
+          echo host=${{ secrets.DB_HOST }} >> ./src/route/func/.env
+          echo user=${{ secrets.DB_USER }} >> ./src/route/func/.env
+          echo pass=${{ secrets.DB_PASS }} >> ./src/route/func/.env
+          cat ./src/route/func/.env
       -
         name: Docker Metadata
         id: meta
