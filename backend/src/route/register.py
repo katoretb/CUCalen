@@ -1,13 +1,13 @@
 from random import randrange, choice
 from string import digits, ascii_letters
-from route.func.mysql import cursor, db
+from route.func.mysql import sql
 from flask import request, jsonify
 from route.func.encrypt import encrypt_string
-from route.func.valid_sid import valid_sid
-import json
-import pyotp
+from route.func.validation import valid_sid
 from route.func.mkqrbase64 import mb64qr
 from route.func.errmaker import errmaker
+import json
+import pyotp
 
 def main():
     try:
@@ -18,12 +18,14 @@ def main():
         un = data["username"]
         password = data["password"]
         ip = request.remote_addr
-        _, err = valid_sid(sid)
+        msg, err = valid_sid(sid)
         if err:
-            return errmaker(400, "Sid in invalid")
+            return msg
 
-        cursor.execute(f"SELECT sid FROM users WHERE sid='{sid}'")
-        result = cursor.fetchall()
+        result, err = sql.sqsel("users", ["sid"], f"sid='{sid}'")
+        if err:
+            return result
+
         if len(result) != 0:
             return errmaker(400, "user already exist")
 
@@ -43,20 +45,66 @@ def main():
                 ]
             }
             default_working_hour.append(x)
+
         sc = encrypt_string(f'{randrange(1, 10**10):010}'+sid, "md5")
+
         salt = ''.join(choice(ascii_letters+digits) for i in range(20))
         password = f'{encrypt_string(password+salt, "sha256")}${salt}'
+
         token = {ip: encrypt_string(''.join(choice(ascii_letters+digits) for i in range(20))+sid+ip, "sha256")}
+
         k = pyotp.random_base32()
-        cursor.execute(f"INSERT INTO users (sid, username, firstname, lastname, password, working_hour, subjects, token, secret_code, authkey) VALUES ('{sid}', '{un}', '{fn}', '{ln}', '{password}', '{json.dumps(default_working_hour)}', '{{}}', '{json.dumps(token)}', '{sc}', '{k}')")
-        db.commit()
-        cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'add user sid={sid}')")
-        db.commit()
-        cursor.execute(f"CREATE TABLE {sid}_events (id INT NOT NULL AUTO_INCREMENT , event_title VARCHAR(256) NOT NULL , event_des VARCHAR(256) NOT NULL , event_start DATETIME NOT NULL , event_end DATETIME NOT NULL , event_color VARCHAR(7) NOT NULL , PRIMARY KEY (id))")
+
+        ke = [
+                "sid",
+                "username",
+                "firstname",
+                "lastname",
+                "password",
+                "working_hour",
+                "subjects",
+                "token",
+                "secret_code",
+                "authkey"
+                ]
+        va = [  
+                f'{sid}',
+                f'{un}',
+                f'{fn}',
+                f'{ln}',
+                f'{password}',
+                f'{json.dumps(default_working_hour)}',
+                f'{{}}',
+                f'{json.dumps(token)}',
+                f'{sc}',
+                f'{k}'
+                ]
+        result, err = sql.sqadd("users", ke, va)
+        if err:
+            return result
+
+        result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'add user sid={sid}'])
+        if err:
+            return result
+
+        c = [
+            "id INT NOT NULL AUTO_INCREMENT",
+            "event_title VARCHAR(256) NOT NULL",
+            "event_des VARCHAR(256) NOT NULL",
+            "event_start DATETIME NOT NULL",
+            "event_end DATETIME NOT NULL",
+            "event_color VARCHAR(7) NOT NULL",
+            "PRIMARY KEY (id)"
+        ]
+        result, err = sql.sqcre(f"{sid}_events", c)
+        if err:
+            return result
+        
         totp_auth = pyotp.totp.TOTP(k).provisioning_uri( 
             name=sid, 
             issuer_name='CUCalen'
-        ) 
+        )
+
         x = {
             "status_code": 200,
             "success": True,
@@ -68,4 +116,4 @@ def main():
         }
         return jsonify(x)
     except:
-        return errmaker(500, "Process error")
+        return errmaker(400, "Bad Request")

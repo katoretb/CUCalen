@@ -1,8 +1,8 @@
-from route.func.mysql import cursor, db
-from flask import request, jsonify
-from route.func.valid_sid import valid_sid
-import json
 from route.func.errmaker import errmaker
+from route.func.mysql import sql
+from flask import request, jsonify
+from route.func.validation import valid_sid, valid_token
+import json
 
 def main():
     try:
@@ -10,36 +10,35 @@ def main():
         sid = data["sid"]
         token = data["token"]
         ip = request.remote_addr
-        _, err = valid_sid(sid)
+        msg, err = valid_sid(sid)
         if err:
-            return errmaker(400, "Sid in invalid")
+            return msg
 
-        cursor.execute(f"SELECT username, firstname, lastname, token, secret_code, working_hour FROM users WHERE sid='{sid}'")
-        result = cursor.fetchall()
-        if len(result) == 0:
-            return errmaker(400, "user not found")
-        tokendb = json.loads(result[0][3])
-
-        if token not in tokendb.values():
-            cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'trying to get user sid={sid} data but token is unauthorized')")
-            db.commit()
-            return errmaker(400, "token is unauthorized")
-        cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'get user sid={sid} data')")
-        db.commit()
+        msg, err = valid_token(ip, sid, token, "get user")
+        if err:
+            return msg
+        
+        result, err = sql.sqsel("users", ["username", "firstname", "lastname", "secret_code", "working_hour"], f"sid='{sid}'")
+        if err:
+            return result
+        
+        resul, err = sql.sqadd("logs", ["ip", "info"], [ip, f'get user sid={sid} data'])
+        if err:
+            return resul
         
         x = {
             "status_code": 200,
             "success": True,
             "message": "Get user data success",
             "data": {
-                "secret_code": result[0][4],
+                "secret_code": result[0][3],
                 "firstname": result[0][1],
                 "lastname": result[0][2],
                 "sid": sid,
                 "username": result[0][0],
-                "working_hour": json.loads(result[0][5])
+                "working_hour": json.loads(result[0][4])
             }
         }
         return jsonify(x)
     except:
-        return errmaker(500, "Process error")
+        return errmaker(400, "Bad Request")

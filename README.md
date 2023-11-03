@@ -12,8 +12,8 @@ info ....
  - [Calendar](#c)
    - [Get calendar](#c1)
    - [Add event](#c2) :white_check_mark:
-   - [Remove event](#c3)
-   - [Edit event](#c4)
+   - [Remove event](#c3) :white_check_mark:
+   - [Edit event](#c4) :white_check_mark:
    - [Get subject](#c5)
    - [Add subject](#c6)
    - [Remove subject](#c7)
@@ -226,28 +226,17 @@ Response
 Payload
 ```js
 {
+    sid: string,
+    token: string,
     events:[
         {
-            sid: stringß
             event_title: (str),
             event_des: (str),
             event_date: [
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
-                ],
-                [
-                    (int-day),
-                    (int-month),
-                    (int-year),
-                    (int-hour),
-                    (int-min)
-                ]
+                Datetime,
+                Datetime
             ],
-            event_color: string
+            event_color: (str)
         },
         ...
     ]
@@ -268,6 +257,8 @@ Response
 Payload
 ```js
 {
+    sid: (str),
+    token: (str),
     event_id: (int)
 }
 ```
@@ -286,25 +277,16 @@ Response
 Payload
 ```js
 {
+    sid: (str),
+    token: (str),
     event_id: (int),
     event_title: (str),
     event_des: (str),
     event_date: [
-        [
-            (int-day),
-            (int-month),
-            (int-year),
-            (int-hour),
-            (int-min)
-        ],
-        [
-            (int-day),
-            (int-month),
-            (int-year),
-            (int-hour),
-            (int-min)
-        ]
-    ]
+        Datetime,
+        Datetime
+    ],
+    event_color: (str)
 }
 ```
 
