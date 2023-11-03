@@ -1,6 +1,7 @@
 import qrcode
 import base64
 from io import BytesIO
+from qrcode.image.styledpil import StyledPilImage
 
 def mb64qr(bolt11):
     qr = qrcode.QRCode(
@@ -12,9 +13,9 @@ def mb64qr(bolt11):
 
     qr.add_data(bolt11)
     qr.make(fit=True)
-    img = qr.make_image()
+    img = qr.make_image(image_factory=StyledPilImage, embeded_image_path="route/func/icon.png")
 
     buffered = BytesIO()
-    img.save(buffered, format="PNG")
+    img.save(buffered)
     img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
     return f'data:image/png;base64,{img_str}'

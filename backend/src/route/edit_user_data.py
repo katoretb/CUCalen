@@ -2,14 +2,7 @@ from route.func.mysql import cursor, db
 from flask import request, jsonify
 from route.func.valid_sid import valid_sid
 import json
-
-def guderr(code, msg):
-    x = {
-        "status_code": code,
-        "success": False,
-        "message": msg
-    }
-    return jsonify(x)
+from route.func.errmaker import errmaker
 
 def main():
     try:
@@ -23,18 +16,18 @@ def main():
         ip = request.remote_addr
         _, err = valid_sid(sid)
         if err:
-            return guderr(400, "Sid in invalid")
+            return errmaker(400, "Sid in invalid")
 
         cursor.execute(f"SELECT token, working_hour FROM users WHERE sid='{sid}'")
         result = cursor.fetchall()
         whdb = json.loads(result[0][1])
         if len(result) == 0:
-            return guderr(400, "user not found")
+            return errmaker(400, "user not found")
         tokendb = json.loads(result[0][0])
         if token not in tokendb.values():
             cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'trying to eidt user sid={sid} data but token is unauthorized')")
             db.commit()
-            return guderr(400, "token is unauthorized")
+            return errmaker(400, "token is unauthorized")
         
         if len(wh) < 7:
             for i in wh:
@@ -57,4 +50,4 @@ def main():
         }
         return jsonify(x)
     except:
-        return guderr(500, "Process error")
+        return errmaker(500, "Process error")

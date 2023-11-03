@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                {
+                    title: 'Phy Lab 18',
+                    description: '',
+                    start: '2023-11-02T09:00:00',
+                    end: '2023-11-02T11:00:00'
+                },
+                {
+                    title: 'Com Proj mentor',
+                    description: '',
+                    start: '2023-11-02T13:00:00',
+                    end: '2023-11-02T16:00:00',
+                    color: '#378006'
+                }
+            ],
+            eventTimeFormat: {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: false
+            },
+            eventDisplay: 'block'
+        });
+        calendar.render();
+      });
+
+    </script>
+  </head>
+  <body>
+    <div id='calendar'></div>
+  </body>
+</html>

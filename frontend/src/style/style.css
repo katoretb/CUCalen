@@ -1,0 +1,69 @@
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+/* Edit all page--------------------------------------------------------------------------------- */
+*{
+  font-family: 'Prompt', sans-serif;
+}
+/* html edit------------------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+.modebut {
+  padding: 20px;
+  margin: 10px;
+  text-decoration: none;
+  font-size: 30px;
+  border-radius: 5px;
+  color: white;
+}
+
+.admin {
+  background-color: #ff8138;
+}
+
+.pos {
+  background-color: #4a68ff;
+}
+
+.preloader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .4s ease;
+}
+
+.fade-out-animation {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.content {
+  margin-left: 20px;
+  width: 100%;
+}
+
+.billformbox {
+  width: 100%;
+  height: auto;
+  width: 284px;
+  padding: 30px 30px 40px 30px;
+  border: 1px solid #BFBFBF;
+  background-color: #bfbfbf;
+  box-shadow: 10px 10px 5px #aaaaaa;
+}
