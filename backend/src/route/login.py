@@ -1,9 +1,9 @@
-from random import randrange, choice
+from random import choice
 from string import digits, ascii_letters
-from route.func.mysql import cursor, db
+from route.func.mysql import sql
 from flask import request, jsonify
 from route.func.encrypt import encrypt_string
-from route.func.valid_sid import valid_sid
+from route.func.validation import valid_sid
 import json
 from route.func.errmaker import errmaker
 
@@ -13,12 +13,14 @@ def main():
         sid = data["sid"]
         password = data["password"]
         ip = request.remote_addr
-        _, err = valid_sid(sid)
+        msg, err = valid_sid(sid)
         if err:
-            return errmaker(400, "Sid in invalid")
+            return msg
 
-        cursor.execute(f"SELECT password, token FROM users WHERE sid='{sid}'")
-        result = cursor.fetchall()
+        result, err = sql.sqsel("users", ["password", "token"], f"sid='{sid}'")
+        if err:
+            return result
+
         if len(result) == 0:
             return errmaker(400, "user not found")
         pas = result[0][0].split("$")
@@ -29,16 +31,22 @@ def main():
         token[ip] = encrypt_string(''.join(choice(ascii_letters+digits) for i in range(20))+sid+ip, "sha256")
 
         if password != check_pass:
-            cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'trying to login to sid={sid} but password is not correct')")
-            db.commit()
+            result, err = sql.sqsel("logs", ["ip", "info"], [ip, f'trying to login to sid={sid} but password is not correct'])
+            if err:
+                return result
             return errmaker(400, "password is not correct")
-        cursor.execute(f"UPDATE users SET token='{json.dumps(token)}' WHERE sid='{sid}'")
-        db.commit()
-        cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'login to sid={sid}')")
-        db.commit()
+        
+        result, err = sql.squpd("users", {"token": f"'{json.dumps(token)}'"}, f"sid='{sid}'")
+        if err:
+            return result
 
-        cursor.execute(f"SELECT username, firstname, lastname, secret_code, working_hour FROM users WHERE sid='{sid}'")
-        result = cursor.fetchall()
+        result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'login to sid={sid}'])
+        if err:
+            return result
+
+        result, err = sql.sqsel("users", ["username", "firstname", "lastname", "secret_code", "working_hour"], f"sid='{sid}'")
+        if err:
+            return result
         
         x = {
             "status_code": 200,
@@ -56,5 +64,4 @@ def main():
         }
         return jsonify(x)
     except:
-        return errmaker(500, "Process error")
-    
+        return errmaker(400, "Bad Request")

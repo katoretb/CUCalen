@@ -1,8 +1,8 @@
-from route.func.mysql import cursor, db
-from flask import request, jsonify
-from route.func.valid_sid import valid_sid
-import json
 from route.func.errmaker import errmaker
+from route.func.mysql import sql
+from flask import request, jsonify
+from route.func.validation import valid_sid, valid_token
+import json
 
 def main():
     try:
@@ -14,20 +14,19 @@ def main():
         un = data["username"]
         wh = data["working_hour"]
         ip = request.remote_addr
-        _, err = valid_sid(sid)
+        msg, err = valid_sid(sid)
         if err:
-            return errmaker(400, "Sid in invalid")
+            return msg
 
-        cursor.execute(f"SELECT token, working_hour FROM users WHERE sid='{sid}'")
-        result = cursor.fetchall()
-        whdb = json.loads(result[0][1])
-        if len(result) == 0:
-            return errmaker(400, "user not found")
-        tokendb = json.loads(result[0][0])
-        if token not in tokendb.values():
-            cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'trying to eidt user sid={sid} data but token is unauthorized')")
-            db.commit()
-            return errmaker(400, "token is unauthorized")
+        msg, err = valid_token(ip, sid, token, "eidt user")
+        if err:
+            return msg
+
+        result, err = sql.sqsel("users", ["working_hour"], f"sid='{sid}'")
+        if err:
+            return result
+
+        whdb = json.loads(result[0][0])
         
         if len(wh) < 7:
             for i in wh:
@@ -37,11 +36,19 @@ def main():
                         whdb[j]["busy_hours"] = i["busy_hours"]
             wh = whdb
 
-        cursor.execute(f"UPDATE users SET firstname='{fn}', lastname='{ln}', username='{un}', working_hour='{json.dumps(wh)}' WHERE sid='{sid}'")
-        db.commit()
+        d = {
+            "firstname": f"'{fn}'",
+            "lastname": f"'{ln}'",
+            "username": f"'{un}'",
+            "working_hour": f"'{json.dumps(wh)}'"
+        }
+        result, err = sql.squpd("users", d, f"sid='{sid}'")
+        if err:
+            return result
 
-        cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'edit user sid={sid} data')")
-        db.commit()
+        result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'edit user sid={sid} data'])
+        if err:
+            return result
         
         x = {
             "status_code": 200,
@@ -50,4 +57,4 @@ def main():
         }
         return jsonify(x)
     except:
-        return errmaker(500, "Process error")
+        return errmaker(400, "Bad Request")
