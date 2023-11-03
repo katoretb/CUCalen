@@ -5,6 +5,7 @@ from flask import request, jsonify
 from route.func.encrypt import encrypt_string
 from route.func.valid_sid import valid_sid
 import json
+from route.func.errmaker import errmaker
 
 def main():
     try:
@@ -14,24 +15,12 @@ def main():
         ip = request.remote_addr
         _, err = valid_sid(sid)
         if err:
-            x = {
-                "status_code": 400,
-                "success": False,
-                "message": "Sid in invalid",
-                "data": {}
-            }
-            return jsonify(x)
+            return errmaker(400, "Sid in invalid")
 
         cursor.execute(f"SELECT password, token FROM users WHERE sid='{sid}'")
         result = cursor.fetchall()
         if len(result) == 0:
-            x = {
-                "status_code": 400,
-                "success": False,
-                "message": "user not found",
-                "data": {}
-            }
-            return jsonify(x)
+            return errmaker(400, "user not found")
         pas = result[0][0].split("$")
         salt = pas[1]
         check_pass = pas[0]
@@ -42,13 +31,7 @@ def main():
         if password != check_pass:
             cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'trying to login to sid={sid} but password is not correct')")
             db.commit()
-            x = {
-                "status_code": 400,
-                "success": False,
-                "message": "password is not correct",
-                "data": {}
-            }
-            return jsonify(x)
+            return errmaker(400, "password is not correct")
         cursor.execute(f"UPDATE users SET token='{json.dumps(token)}' WHERE sid='{sid}'")
         db.commit()
         cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'login to sid={sid}')")
@@ -73,11 +56,5 @@ def main():
         }
         return jsonify(x)
     except:
-        x = {
-            "status_code": 500,
-            "success": False,
-            "message": "Process error",
-            "data": {}
-        }
-        return jsonify(x)
+        return errmaker(500, "Process error")
     

@@ -2,6 +2,7 @@ from route.func.mysql import cursor, db
 from flask import request, jsonify
 from route.func.valid_sid import valid_sid
 import json
+from route.func.errmaker import errmaker
 
 def main():
     try:
@@ -15,33 +16,18 @@ def main():
         ip = request.remote_addr
         _, err = valid_sid(sid)
         if err:
-            x = {
-                "status_code": 400,
-                "success": False,
-                "message": "Sid in invalid"
-            }
-            return jsonify(x)
+            return errmaker(400, "Sid in invalid")
 
         cursor.execute(f"SELECT token, working_hour FROM users WHERE sid='{sid}'")
         result = cursor.fetchall()
         whdb = json.loads(result[0][1])
         if len(result) == 0:
-            x = {
-                "status_code": 400,
-                "success": False,
-                "message": "user not found"
-            }
-            return jsonify(x)
+            return errmaker(400, "user not found")
         tokendb = json.loads(result[0][0])
         if token not in tokendb.values():
             cursor.execute(f"INSERT INTO logs (ip, info) VALUES ('{ip}', 'trying to eidt user sid={sid} data but token is unauthorized')")
             db.commit()
-            x = {
-                "status_code": 400,
-                "success": False,
-                "message": "token is unauthorized"
-            }
-            return jsonify(x)
+            return errmaker(400, "token is unauthorized")
         
         if len(wh) < 7:
             for i in wh:
@@ -64,9 +50,4 @@ def main():
         }
         return jsonify(x)
     except:
-        x = {
-            "status_code": 500,
-            "success": False,
-            "message": "Process error"
-        }
-        return jsonify(x)
+        return errmaker(500, "Process error")

@@ -1,7 +1,7 @@
 from route.func.mysql import cursor, db
 from flask import request, jsonify
 from route.func.valid_sid import valid_sid
-import json
+from route.func.errmaker import errmaker
 
 def main():
     try:
@@ -14,13 +14,7 @@ def main():
         ip = request.remote_addr
         _, err = valid_sid(sid)
         if err:
-            x = {
-                "status_code": 400,
-                "success": False,
-                "token": "",
-                "message": "Sid in invalid"
-                }
-            return jsonify(x)
+            return errmaker(400, "Sid in invalid")
         
         time_start, time_end = event_date[0],event_date[1]
         
@@ -39,9 +33,4 @@ def main():
             }
         return jsonify(x)
     except:
-        x = {
-            "status_code": 500,
-            "success": False,
-            "message": "Process error"
-        }
-        return jsonify(x)
+        return errmaker(500, "Process error")
