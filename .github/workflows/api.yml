@@ -81,6 +81,7 @@ jobs:
           ls -lhA ./backend/src
           ls -lhA ./backend/src/route
           ls -lhA ./backend/src/route/func
+          cat ./backend/src/route/func/.env
       -
         name: Build and Push Docker Image
         id: build-and-push
