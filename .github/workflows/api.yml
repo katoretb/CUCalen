@@ -31,12 +31,12 @@ jobs:
         name: Make ENVFILE
         uses: SpicyPizza/create-envfile@v2.0
         with:
-          envkey_host: 'kato14123.ddns.net'
-          envkey_user: 'server'
-          envkey_pass: 'hmWhJOirp5hq0ui3c56YYYB5e'
-          #envkey_host: ${{ secrets.DB_HOST }}
-          #envkey_user: ${{ secrets.DB_USER }}
-          #envkey_pass: ${{ secrets.DB_PASS }}
+          envkey_HOST: 'kato14123.ddns.net'
+          envkey_USER: 'server'
+          envkey_PASS: 'hmWhJOirp5hq0ui3c56YYYB5e'
+          #envkey_HOST: ${{ secrets.DB_HOST }}
+          #envkey_USER: ${{ secrets.DB_USER }}
+          #envkey_PASS: ${{ secrets.DB_PASS }}
           file_name: .env
           directory: ./backend/src/route/func/
       -
@@ -81,6 +81,7 @@ jobs:
           ls -lhA ./backend/src
           ls -lhA ./backend/src/route
           ls -lhA ./backend/src/route/func
+          cat ./backend/src/route/func/.env
       -
         name: Build and Push Docker Image
         id: build-and-push
