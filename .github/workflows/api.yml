@@ -28,25 +28,20 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v3
       -
+        name: Make ENVFILE
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_host: ${{ secrets.DB_HOST }}
+          envkey_user: ${{ secrets.DB_USER }}
+          envkey_pass: ${{ secrets.DB_PASS }}
+          file_name: .env
+          directory: ./backend/src/route/func/
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      # - 
-      #   name: Open Web Client Directory
-      #   working-directory: ./
-      #   run: |
-      #     ls -la
-      -
-        name: Create .env
-        working-directory: ./backend/src/route/func/
-        run: |
-          touch .env
-          echo host=${{ secrets.DB_HOST }} >> .env
-          echo user=${{ secrets.DB_USER }} >> .env
-          echo pass=${{ secrets.DB_PASS }} >> .env
-          cat .env
       -
         name: Docker Metadata
         id: meta
