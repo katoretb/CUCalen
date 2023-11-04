@@ -74,11 +74,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       -
+        name: DETECTIVE DETECTIVE
+        run: |
+          ls -lhA
+          ls -lhA ./backend
+          ls -lhA ./backend/src
+          ls -lhA ./backend/src/route
+          ls -lhA ./backend/src/route/func
+      -
         name: Build and Push Docker Image
         id: build-and-push
         uses: docker/build-push-action@v5
         with:
-          context: "{{defaultContext}}:backend"
+          context: "./backend"
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
