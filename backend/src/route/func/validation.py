@@ -16,6 +16,12 @@ def valid_sid(sid):
         return errmaker(400, "Sid in invalid"), True
     return "all good", False
 
+def valid_sc(sc):
+    result, err = sql.sqsel("users", ["subjects", "sid"], f"secret_code='{sc}'")
+    if err:
+        return errmaker(400, "secret_code not found"), True
+    return result, False
+
 def valid_token(ip, sid, token, task):
     result, err = sql.sqsel("users", ["token"], f"sid='{sid}'")
     if err:
