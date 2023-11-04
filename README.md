@@ -11,13 +11,12 @@ info ....
    - [Edit user data](#u4) :white_check_mark:
  - [Calendar](#c)
    - [Get calendar](#c1)
-   - [Add event](#c2) :white_check_mark:
-   - [Remove event](#c3) :white_check_mark:
-   - [Edit event](#c4) :white_check_mark:
-   - [Get subject](#c5)
-   - [Add subject](#c6)
-   - [Remove subject](#c7)
-   - [Edit subject](#c8)
+   - [Get event](#c2)
+   - [Add event](#c3) :white_check_mark:
+   - [Remove event](#c4) :white_check_mark:
+   - [Edit event](#c5) :white_check_mark:
+   - [Get subject](#c6)
+   - [Edit subject](#c7)
 
 
 ### <a name="u"></a>User
@@ -213,7 +212,8 @@ Response
                 event_date: [
                     Datetime,
                     Datetime
-                ]
+                ],
+                event_color: (str)
             },
             ...
         ]
@@ -221,7 +221,41 @@ Response
 }
 ```
 
-- #### <a name="c2"></a>add_event (POST)
+- #### <a name="c2"></a>get_event (POST)
+
+Payload
+```js
+{
+    sid: string,
+    token: string
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+    message: str
+    data: {
+        event_list: [
+            {
+                event_id: (int),
+                event_title: (str),
+                event_des: (str),
+                event_date: [
+                    Datetime,
+                    Datetime
+                ],
+                event_color: (str)
+            },
+            ...
+        ]
+    }
+}
+```
+
+- #### <a name="c3"></a>add_event (POST)
 
 Payload
 ```js
@@ -252,7 +286,7 @@ Response
 }
 ```
 
-- #### <a name="c3"></a>remove_event (POST)
+- #### <a name="c4"></a>remove_event (POST)
 
 Payload
 ```js
@@ -272,7 +306,7 @@ Response
 }
 ```
 
-- #### <a name="c4"></a>edit_event (POST)
+- #### <a name="c5"></a>edit_event (POST)
 
 Payload
 ```js
@@ -299,7 +333,7 @@ Response
 }
 ```
 
-- #### <a name="c5"></a>get_subjects (POST)
+- #### <a name="c6"></a>get_subjects (POST)
 
 Payload
 ```js
@@ -317,7 +351,6 @@ Response
     data: {
         subjects: [
             {
-                subject_id: int,
                 courseno: int,
                 year: int,
                 semester: int,
@@ -330,11 +363,13 @@ Response
 }
 ```
 
-- #### <a name="c6"></a>add_subject (POST)
+- #### <a name="c7"></a>edit_subject (POST)
 
 Payload
 ```js
 {
+    sid: (str),
+    token: (str),
     subjects: [
         {
             courseno: int,
@@ -345,50 +380,6 @@ Payload
         },
         ...
     ]
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
-
-- #### <a name="c7"></a>remove_subject (POST)
-
-Payload
-```js
-{
-    subjects:[
-        int,
-        ...
-    ]
-}
-```
-
-Response
-```js
-{
-    status_code: int,
-    success: boolean,
-    message: str
-}
-```
-
-- #### <a name="c8"></a>edit_subject (POST)
-
-Payload
-```js
-{
-    courseno: int,
-    courseno: int,
-    year: int,
-    semester: int,
-    studyProgram: str,
-    section: int
 }
 ```
 

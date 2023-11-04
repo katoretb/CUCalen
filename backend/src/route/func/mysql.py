@@ -47,7 +47,7 @@ class sqry():
         except:
             return errmaker(500, "sql update err"), True
 
-    def sqsel(s, table, keys, condi):
+    def sqsel(s, table, keys, condi="1"):
         try:
             k = ", ".join(keys)
             s.cursor.execute(f"SELECT {k} FROM {table} WHERE {condi}")
