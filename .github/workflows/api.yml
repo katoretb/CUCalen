@@ -38,7 +38,7 @@ jobs:
           #envkey_user: ${{ secrets.DB_USER }}
           #envkey_pass: ${{ secrets.DB_PASS }}
           file_name: .env
-          directory: ./backend/src/route/func/
+          directory: ./backend/route/func/
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
