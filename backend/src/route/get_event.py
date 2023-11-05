@@ -47,6 +47,8 @@ def main():
                 "subjects": el
             }
         }
-        return jsonify(x)
+        x = jsonify(x)
+        x.headers.add('Access-Control-Allow-Origin', '*')
+        return x
     except:
         return errmaker(400, "Bad Request")

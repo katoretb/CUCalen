@@ -32,6 +32,8 @@ def main():
                 "success": True,
                 "message": "Add event success"
             }
-        return jsonify(x)
+        x = jsonify(x)
+        x.headers.add('Access-Control-Allow-Origin', '*')
+        return x
     except:
         return errmaker(400, "Bad Request")
