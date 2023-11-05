@@ -38,12 +38,10 @@ def main():
             return result
 
         x = {
-                "status_code": 200,
-                "success": True,
-                "message": "Edit event success"
-            }
-        x = jsonify(x)
-        x.headers.add('Access-Control-Allow-Origin', '*')
-        return x
+            "status_code": 200,
+            "success": True,
+            "message": "Edit event success"
+        }
+        return jsonify(x)
     except:
         return errmaker(400, "Bad Request")

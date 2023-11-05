@@ -1,4 +1,5 @@
 from flask import app, Flask, Response
+from flask_cors import CORS
 from os import listdir
 from importlib import import_module
 
@@ -12,6 +13,7 @@ for i in list_route:
 
 #init api server
 app = Flask(__name__)
+CORS(app)
 
 #add route to /
 @app.route('/')
@@ -25,4 +27,4 @@ for i in gbl['list_route']:
 
 #start api server
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)

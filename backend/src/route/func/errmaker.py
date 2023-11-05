@@ -7,6 +7,4 @@ def errmaker(code, msg):
         "message": msg,
         "data": {}
     }
-    x = jsonify(x)
-    x.headers.add('Access-Control-Allow-Origin', '*')
-    return x
+    return jsonify(x)
