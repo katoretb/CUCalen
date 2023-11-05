@@ -43,6 +43,8 @@ def main():
             "success": True,
             "message": "Edit user dubjects success"
         }
-        return jsonify(x)
+        x = jsonify(x)
+        x.headers.add('Access-Control-Allow-Origin', '*')
+        return x
     except:
         return errmaker(400, "Bad Request")

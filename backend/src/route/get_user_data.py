@@ -39,6 +39,8 @@ def main():
                 "working_hour": json.loads(result[0][4])
             }
         }
-        return jsonify(x)
+        x = jsonify(x)
+        x.headers.add('Access-Control-Allow-Origin', '*')
+        return x
     except:
         return errmaker(400, "Bad Request")
