@@ -55,8 +55,6 @@ def main():
             "success": True,
             "message": "Edit user data success"
         }
-        x = jsonify(x)
-        x.headers.add('Access-Control-Allow-Origin', '*')
-        return x
+        return jsonify(x)
     except:
         return errmaker(400, "Bad Request")
