@@ -6,9 +6,9 @@ from route.func.errmaker import errmaker
 load_dotenv()
 
 db = MySQLdb.connect(
-    host = getenv('host'),
-    user = getenv('user'),
-    password = getenv('pass'),
+    host = getenv('HOST'),
+    user = getenv('USER'),
+    password = getenv('PASS'),
     database = "CUCalen"
 )
 
