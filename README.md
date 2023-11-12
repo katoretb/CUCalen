@@ -391,3 +391,24 @@ Response
     message: str
 }
 ```
+
+### sha256 (POST)
+
+Payload
+```js
+{
+    str: (str)
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+    message: str,
+    data: {
+        hash: (str)
+    }
+}
+```
