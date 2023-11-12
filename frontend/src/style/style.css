@@ -67,3 +67,73 @@ html {
   background-color: #bfbfbf;
   box-shadow: 10px 10px 5px #aaaaaa;
 }
+
+.lobut {
+  background-color: #f53131;
+}
+
+.lobut:hover {
+  background-color: #cf1a1a;
+}
+
+.libut {
+  background-color: #4dc96e;
+}
+
+.libut:hover {
+  background-color: #2cba52;
+}
+
+.regbut {
+  background-color: #4f96c2;
+}
+
+.regbut:hover {
+  background-color: #3d82ad;
+}
+
+.but{
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.fgpw {
+  color:white;
+  text-decoration: none;
+  transition: 0.15s;
+}
+
+.fgpw:hover{
+   color:#041ea1;
+   cursor: pointer;
+}
+
+.subt {
+  font-weight: 1000;
+  float: right;
+  text-decoration: none;
+  color: #7ef69e;
+  transition: 0.1s;
+}
+
+.subt:hover {
+  color: #14ac3d;
+  cursor: pointer;
+}
+
+#cpwrqm li{
+  color:#575757;
+}
+
+#cpwrqm {
+  list-style-type: disc;
+}
+
+#subjbody tr td:last-child{
+  border-bottom-right-radius: 12px;
+}
+
+#subjbody tr th:first-child{
+  border-bottom-left-radius: 12px;
+}

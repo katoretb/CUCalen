@@ -1,0 +1,38 @@
+<div style="margin: 30px 30px 0px 400px;background-color: rgba(255,255,255,0.6);border-radius: 10px;padding: 20px;">
+    <h2>Subjects</h2>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <input class="form-control" id="cnadd" placeholder="Course ID" type="number" min="1">
+            </div>
+            <div class="col-sm">
+                <input class="form-control" id="smadd" placeholder="Semester" type="number" min="1" max="3">
+            </div>
+            <div class="col-sm">
+                <input class="form-control" id="stadd" placeholder="Section" type="number" min="1">
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn-success" style="float: right;margin-right: 30px;" onclick="addsubj()"><i class="bi bi-plus"></i> Add</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" class="text-nowrap" style="border-top-left-radius: 12px;">#</th>
+            <th scope="col">Course ID</th>
+            <th scope="col">Semester</th>
+            <th scope="col">Section</th>
+            <th scope="col" class="text-nowrap" style="border-top-right-radius: 12px;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="subjbody">
+        </tbody>
+    </table>
+    <br>
+    <center>
+        <button type="button" class="btn btn-warning" onclick="submitsubj()">Submit</button>
+    </center>
+</div>
