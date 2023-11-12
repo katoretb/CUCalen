@@ -48,5 +48,6 @@ def main():
             }
         }
         return jsonify(x)
-    except:
+    except Exception as error:
+        print("An exception occurred:", error)
         return errmaker(400, "Bad Request")

@@ -24,7 +24,8 @@ class sqry():
             s.cursor.execute(f"INSERT INTO {table} ({k}) VALUES ('{v}')")
             s.db.commit()
             return "all good", False
-        except:
+        except Exception as error:
+            print("An exception occurred:", error)
             return errmaker(500, "sql insert err"), True
 
     def sqdel(s, table, condi):
@@ -32,7 +33,8 @@ class sqry():
             s.cursor.execute(f"DELETE FROM {table} WHERE {condi}")
             s.db.commit()
             return "all good", False
-        except:
+        except Exception as error:
+            print("An exception occurred:", error)
             return errmaker(500, "sql delete err"), True
 
     def squpd(s, table, kvdict, condi):
@@ -44,7 +46,8 @@ class sqry():
             cursor.execute(f"UPDATE {table} SET {kvs} WHERE {condi}")
             db.commit()
             return "all good", False
-        except:
+        except Exception as error:
+            print("An exception occurred:", error)
             return errmaker(500, "sql update err"), True
 
     def sqsel(s, table, keys, condi="1"):
@@ -52,7 +55,8 @@ class sqry():
             k = ", ".join(keys)
             s.cursor.execute(f"SELECT {k} FROM {table} WHERE {condi}")
             return s.cursor.fetchall(), False
-        except:
+        except Exception as error:
+            print("An exception occurred:", error)
             return errmaker(500, "sql select err"), True
 
     def sqcre(s, table, column):
@@ -60,7 +64,8 @@ class sqry():
             c = ', '.join(column)
             s.cursor.execute(f"CREATE TABLE {table} ({c})")
             return "all good", False
-        except:
+        except Exception as error:
+            print("An exception occurred:", error)
             return errmaker(500, "sql create err"), True
 
 cursor = db.cursor()
