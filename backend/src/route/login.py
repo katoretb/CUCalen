@@ -31,7 +31,7 @@ def main():
         token[ip] = encrypt_string(''.join(choice(ascii_letters+digits) for i in range(20))+sid+ip, "sha256")
 
         if password != check_pass:
-            result, err = sql.sqsel("logs", ["ip", "info"], [ip, f'trying to login to sid={sid} but password is not correct'])
+            result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'trying to login to sid={sid} but password is not correct'])
             if err:
                 return result
             return errmaker(400, "password is not correct")
