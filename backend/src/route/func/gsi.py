@@ -21,11 +21,12 @@ def format_class(rawtr):
             }
             secdic[secn][rawtr[i]['td'][1]['nobr'][0]['font'][0]['_value']].append(temp)
         elif len(rawtr[i]['td']) > 9:
-            secn += 1
-            secdic[secn] = {
-                "LECT": [],
-                "LAB": []
-            }
+            if secn != int(rawtr[i]['td'][1]['nobr'][0]['font'][0]['_value']):
+                secn += 1
+                secdic[secn] = {
+                    "LECT": [],
+                    "LAB": []
+                }
             temp = {
                 "day": [d[k] for k in rawtr[i]['td'][3]['nobr'][0]['font'][0]['_value'].replace("\r\n\t\t\t\t\t\t\t   \r\n\t\t\t\t\t\t\t\t\r\n\t\t\t                     ", " ").split()],
                 "time": [f'{x}:00' for x in rawtr[i]['td'][4]['nobr'][0]['font'][0]['_value'].split("-")],
@@ -34,11 +35,12 @@ def format_class(rawtr):
             }
             secdic[secn][rawtr[i]['td'][2]['nobr'][0]['font'][0]['_value']].append(temp)
         else:
-            secn += 1
-            secdic[secn] = {
-                "LECT": [],
-                "LAB": []
-            }
+            if secn != int(rawtr[i]['td'][1]['nobr'][0]['font'][0]['_value']):
+                secn += 1
+                secdic[secn] = {
+                    "LECT": [],
+                    "LAB": []
+                }
             temp = {
                 "day": [d[k] for k in rawtr[i]['td'][1]['nobr'][0]['font'][0]['td'][1]['nobr'][0]['font'][0]['_value'].replace("\r\n\t\t\t\t\t\t\t   \r\n\t\t\t\t\t\t\t\t\r\n\t\t\t                     ", " ").split()],
                 "time": [f'{x}:00' for x in rawtr[i]['td'][1]['nobr'][0]['font'][0]['td'][2]['nobr'][0]['font'][0]['_value'].split("-")],
