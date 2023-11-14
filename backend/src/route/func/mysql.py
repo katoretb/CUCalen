@@ -9,7 +9,7 @@ db = MySQLdb.connect(
     host = getenv('HOST'),
     user = getenv('USER'),
     password = getenv('PASS'),
-    database = getenv('USER')
+    database = 'CUCalen'
 )
 
 class sqry():
