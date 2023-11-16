@@ -41,8 +41,22 @@ def main():
                 }
                 event_list.append(e)
         
+        # get_subject operations will happen here
         sub_list = []
-        # get_calendar operations will start here
+        subname_list = []
+        temporary = json.loads(result[0][0])
+        if len(temporary) > 0:
+            for k, v in temporary.items():
+                e = {
+                    "courseno": k,
+                    "year": v["year"],
+                    "semester": v["semester"],
+                    "studyProgram": v["studyProgram"],
+                    "section": v["section"]
+                }
+                subname_list.append(e)
+                section = v["section"]
+                result_gsi = gsi(k, v["year"], v["semester"], v["studyprogram"])
 
         x = {
             "status_code": 200,
