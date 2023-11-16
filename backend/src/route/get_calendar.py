@@ -25,8 +25,8 @@ def main():
         if err:
             return result_event
 
+        # get_event operations will happen here
         event_list = []
-
         if len(result_event) > 0:
             for i in result_event:
                 e = {
