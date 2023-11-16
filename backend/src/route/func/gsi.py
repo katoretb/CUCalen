@@ -110,12 +110,18 @@ def gsi(c: str, y: int, se: int, sp='S'):
     output_json = html_to_json.convert(s.text)
     table = output_json['html'][0]['body'][0]['form'][0]['table']
     m = {"ม.ค.": 1,"ก.พ.": 2,"มี.ค.": 3,"เม.ย.": 4,"พ.ค.": 5,"มิ.ย.": 6,"ก.ค.": 7,"ส.ค.": 8,"ก.ย.": 9,"ต.ค.": 10,"พ.ย.": 11,"ธ.ค.": 12}
-    temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][1]['_value'].split(" ")
-    temp2 = [f"{x}:00" for x in temp[4].split("-")]
-    tempmid = [f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[0]}', f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[1]}']
-    temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][3]['_value'].split(" ")
-    temp2 = [f"{x}:00" for x in temp[4].split("-")]
-    tempfin = [f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[0]}', f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[1]}']
+    try:
+        temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][1]['_value'].split(" ")
+        temp2 = [f"{x}:00" for x in temp[4].split("-")]
+        tempmid = [f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[0]}', f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[1]}']
+    except:
+        tempmid = ""
+    try:
+        temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][3]['_value'].split(" ")
+        temp2 = [f"{x}:00" for x in temp[4].split("-")]
+        tempfin = [f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[0]}', f'{temp[0]}-{m[temp[1]]}-{int(temp[2])-543}T{temp2[1]}']
+    except:
+        tempfin = ""
     temp = {
         "subject_id": c,
         "subject_name": table[1]['tr'][3]['td'][0]['nobr'][0]['font'][1]['_value'],
