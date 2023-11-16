@@ -43,20 +43,47 @@ def main():
         
         # get_subject operations will happen here
         sub_list = []
-        subname_list = []
         temporary = json.loads(result[0][0])
         if len(temporary) > 0:
             for k, v in temporary.items():
-                e = {
-                    "courseno": k,
-                    "year": v["year"],
-                    "semester": v["semester"],
-                    "studyProgram": v["studyProgram"],
-                    "section": v["section"]
-                }
-                subname_list.append(e)
+                class_list = []
                 section = v["section"]
-                result_gsi = gsi(k, v["year"], v["semester"], v["studyprogram"])
+                hell = gsi(k, v["year"], v["semester"], v["studyProgram"])
+
+                # Since ["LECT"] contains a list, we'll need to loop through them
+                #if len(hell["class"][section]["LECT"]) > 0:
+                for lect in range(0, len(hell["class"][section]["LECT"])):
+                    # Since ["day"] contains a list, we'll need to loop through them
+                    for day in hell["class"][section]["LECT"][lect]["day"]:
+                        class_each = []
+                        class_each.append(day)
+                        class_each.append("LECT")
+                        class_each.append([hell["class"][section]["LECT"][lect]["building"], hell["class"][section]["LECT"][lect]["Room"]])
+                        class_each.append(hell["class"][section]["LECT"][lect]["time"])
+                        class_list.append(class_each)
+
+                # Since ["LAB"] contains a list, we'll need to loop through them
+                #if len(hell["class"][section]["LAB"]) > 0:
+                for lab in range(0, len(hell["class"][section]["LAB"])):
+                    # Since ["day"] contains a list, we'll need to loop through them
+                    for day in hell["class"][section]["lab"][lab]["day"]:
+                        class_each = []
+                        class_each.append(day)
+                        class_each.append("LAB")
+                        class_each.append([hell["class"][section]["LAB"][lab]["building"], hell["class"][section]["LAB"][lab]["Room"]])
+                        class_each.append(hell["class"][section]["LAB"][lab]["time"])
+                        class_list.append(class_each)
+
+                # Prepare the dictionary to be appended
+                pain = {
+                    "subject_id": hell["subject_id"]
+                    "subject_name": hell["subject_name"]
+                    "midterm_exam": hell["midterm_exam"]
+                    "final_exam": hell["final_exam"]
+                    "class": class_list
+                }
+
+                sub_list.append(pain)
 
         x = {
             "status_code": 200,
