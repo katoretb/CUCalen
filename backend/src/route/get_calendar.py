@@ -2,6 +2,7 @@ from route.func.errmaker import errmaker
 from route.func.mysql import sql
 from flask import request, jsonify
 from route.func.validation import valid_sc
+from route.func.gsi import gsi
 import json
 
 def main():
