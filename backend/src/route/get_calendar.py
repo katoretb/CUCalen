@@ -18,7 +18,8 @@ def main():
         if err:
             return resul
         
-        calendar = []
+        sub_list = []
+        event_list = []
         # get_calendar operations will start here
 
         x = {
@@ -26,7 +27,8 @@ def main():
             "success": True,
             "message": "Get user calendar success",
             "data": {
-                "calendar": calendar
+                "sub_list": sub_list,
+                "event_list": event_list
             }
         }
         return jsonify(x)
