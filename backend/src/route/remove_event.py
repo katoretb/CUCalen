@@ -9,7 +9,7 @@ def main():
     token = data["token"]
     event_id = data["event_id"]
     ip = request.remote_addr
-    msg, err = valid_sid(sid, sql)
+    msg, err = valid_sid(sid)
     if err:
         return msg
 
