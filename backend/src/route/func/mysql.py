@@ -5,17 +5,15 @@ from route.func.errmaker import errmaker
 
 load_dotenv()
 
-db = MySQLdb.connect(
-    host = getenv('HOST'),
-    user = getenv('USER'),
-    password = getenv('PASS'),
-    database = 'CUCalen'
-)
-
 class sqry():
-    def __init__(s, db, cursor):
-        s.db = db
-        s.cursor = cursor
+    def __init__(s):
+        s.db = MySQLdb.connect(
+            host = getenv('HOST'),
+            user = getenv('USER'),
+            password = getenv('PASS'),
+            database = 'CUCalen'
+        )
+        s.cursor = s.db.cursor()
 
     def sqadd(s, table, keys, values):
         try:
@@ -43,8 +41,8 @@ class sqry():
             for k, v in kvdict.items():
                 kvl.append(f"{k}={v}")
             kvs = ", ".join(kvl)
-            cursor.execute(f"UPDATE {table} SET {kvs} WHERE {condi}")
-            db.commit()
+            s.cursor.execute(f"UPDATE {table} SET {kvs} WHERE {condi}")
+            s.db.commit()
             return "all good", False
         except Exception as error:
             print("An exception occurred:", error)
@@ -67,7 +65,11 @@ class sqry():
         except Exception as error:
             print("An exception occurred:", error)
             return errmaker(500, "sql create err"), True
+        
+    def kill_connect(s):
+        s.cursor.close()
+        s.db.close()
+        return
 
-cursor = db.cursor()
 
-sql = sqry(db, cursor)
+sql = sqry()
