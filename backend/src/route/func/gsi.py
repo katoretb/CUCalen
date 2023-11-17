@@ -50,7 +50,7 @@ def format_class(rawtr):
             secdic[secn][rawtr[i]['td'][1]['nobr'][0]['font'][0]['td'][0]['nobr'][0]['font'][0]['_value']].append(temp)
     return secdic
 
-def gsi(c: str, y: int, se: int, sp='S'):
+def gsi(c: str, y: int, se: int, sp='S'): #<======================================================================<<<<
     apiparm = {
         "courseno": c,
         "year": y,
