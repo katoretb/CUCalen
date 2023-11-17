@@ -76,10 +76,10 @@ def main():
 
                 # Prepare the dictionary to be appended
                 pain = {
-                    "subject_id": hell["subject_id"]
-                    "subject_name": hell["subject_name"]
-                    "midterm_exam": hell["midterm_exam"]
-                    "final_exam": hell["final_exam"]
+                    "subject_id": hell["subject_id"],
+                    "subject_name": hell["subject_name"],
+                    "midterm_exam": hell["midterm_exam"],
+                    "final_exam": hell["final_exam"],
                     "class": class_list
                 }
 
