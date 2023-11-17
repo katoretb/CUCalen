@@ -42,7 +42,7 @@ def main():
         x = {
             "status_code": 200,
             "success": True,
-            "message": "Get user dubjects success",
+            "message": "Get user subjects success",
             "data": {
                 "subjects": el
             }
