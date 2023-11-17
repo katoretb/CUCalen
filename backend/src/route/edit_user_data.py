@@ -13,11 +13,11 @@ def main():
     un = data["username"]
     wh = data["working_hour"]
     ip = request.remote_addr
-    msg, err = valid_sid(sid)
+    msg, err = valid_sid(sid, sql)
     if err:
         return msg
 
-    msg, err = valid_token(ip, sid, token, "eidt user")
+    msg, err = valid_token(ip, sid, token, "eidt user", sql)
     if err:
         return msg
 

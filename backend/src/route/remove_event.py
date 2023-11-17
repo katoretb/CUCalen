@@ -9,11 +9,11 @@ def main():
     token = data["token"]
     event_id = data["event_id"]
     ip = request.remote_addr
-    msg, err = valid_sid(sid)
+    msg, err = valid_sid(sid, sql)
     if err:
         return msg
 
-    msg, err = valid_token(ip, sid, token, "delete event")
+    msg, err = valid_token(ip, sid, token, "delete event", sql)
     if err:
         return msg
     

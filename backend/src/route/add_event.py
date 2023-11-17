@@ -1,4 +1,3 @@
-from route.func.errmaker import errmaker
 from route.func.mysql import sqry
 from flask import request, jsonify
 from route.func.validation import valid_sid, valid_token
@@ -10,11 +9,11 @@ def main():
     token = data["token"]
     events = data["events"]
     ip = request.remote_addr
-    msg, err = valid_sid(sid)
+    msg, err = valid_sid(sid, sql)
     if err:
         return msg
     
-    msg, err = valid_token(ip, sid, token, "get user")
+    msg, err = valid_token(ip, sid, token, "get user", sql)
     if err:
         return msg
     

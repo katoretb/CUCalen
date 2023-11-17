@@ -9,7 +9,7 @@ def main():
     sc = data["secret_code"]
     ip = request.remote_addr
 
-    result, err = valid_sc(sc)
+    result, err = valid_sc(sc, sql)
     if err:
         return result
     
