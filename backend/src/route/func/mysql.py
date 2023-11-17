@@ -7,6 +7,7 @@ load_dotenv()
 
 class sqry():
     def __init__(s):
+        print("Make Connection")
         s.db = MySQLdb.connect(
             host = getenv('HOST'),
             user = getenv('USER'),
@@ -69,6 +70,7 @@ class sqry():
     def kill_connect(s):
         s.cursor.close()
         s.db.close()
+        print("killed connection")
         return
 
 
