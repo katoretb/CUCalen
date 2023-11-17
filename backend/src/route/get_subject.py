@@ -1,4 +1,3 @@
-from route.func.errmaker import errmaker
 from route.func.mysql import sqry
 from flask import request, jsonify
 from route.func.validation import valid_sc
