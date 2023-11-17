@@ -13,7 +13,7 @@ def main():
     sid = data["sid"]
     password = data["password"]
     ip = request.remote_addr
-    msg, err = valid_sid(sid)
+    msg, err = valid_sid(sid, sql)
     if err:
         return msg
 
