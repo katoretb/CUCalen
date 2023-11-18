@@ -50,7 +50,7 @@ def main():
             for k, v in temporary.items():
                 class_list = []
                 section = v["section"]
-                hell = gsi(k, v["year"], v["semester"], v["studyProgram"])
+                hell, err = gsi(k, v["year"], v["semester"], v["studyProgram"])
 
                 # Since ["LECT"] contains a list, we'll need to loop through them
                 #if len(hell["class"][section]["LECT"]) > 0:

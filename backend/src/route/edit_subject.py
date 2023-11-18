@@ -1,9 +1,11 @@
-from route.func.errmaker import errmaker
-from route.func.mysql import sqry
 from flask import request, jsonify
-from route.func.validation import valid_sid, valid_token
 import json
 import sys
+
+from route.func.errmaker import errmaker
+from route.func.mysql import sqry
+from route.func.validation import valid_sid, valid_token
+from route.func.gsi import gsi
 
 def main():
     try:
@@ -24,6 +26,11 @@ def main():
         subjs = {}
         if len(subjects) > 0:
             for i in subjects:
+                d, err = gsi(i["courseno"], int(i["year"]), int(i["semester"]), i["studyProgram"])
+                if err:
+                    return errmaker(400, f"{i['courseno']} not found or reg cu server down")
+                if len(d['class'] < int(i["section"])):
+                    return errmaker(400, f"{i['courseno']} doesn't have section {i['section']}")
                 subjs[int(i["courseno"])] = {
                     "year": int(i["year"]),
                     "semester": int(i["semester"]),
