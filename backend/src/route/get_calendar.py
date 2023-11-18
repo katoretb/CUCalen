@@ -3,6 +3,7 @@ from flask import request, jsonify
 from route.func.validation import valid_sc
 from route.func.gsi import gsi
 import json
+import sys
 
 def main():
     sql = sqry()
@@ -47,7 +48,7 @@ def main():
         for k, v in temporary.items():
             class_list = []
             section = v["section"]
-            print(k, v["year"], v["semester"], v["studyProgram"])
+            print(k, v["year"], v["semester"], v["studyProgram"], file=sys.stderr)
             hell = gsi(k, v["year"], v["semester"], v["studyProgram"])
 
             # Since ["LECT"] contains a list, we'll need to loop through them

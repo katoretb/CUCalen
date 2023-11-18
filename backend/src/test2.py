@@ -1,31 +1,98 @@
-# def time_range(start, end):
-#     temp = []
-#     sl = start.split(":")
-#     el = end.split(":")
-#     for i in range(int(sl[0]), int(el[0])+1):
-#         for j in range(2):
-#             temp.append(f'{i}-{j*30}')
-#             temp.append(f'{i}-{j*30}')
+from route.func.mysql import sqry
+from route.func.validation import valid_sc
+from route.func.gsi import gsi
+import json
 
-#     temp = temp[3:] if sl[1] != "00" else temp[1:]
-#     temp = temp[:-3] if el[1] == "00" else temp[:-1]
-#     return temp
+def main():
+    sql = sqry()
+    sc = "e31ac3bfada19d9a400cefd907b796a0"
+    ip = "127.0.0.1"
 
-# temp = []
-# for j in range(9, 16+1):
-#     for k in range(2):
-#         temp.append(f'{j}-{ k*30}')
-#         temp.append(f'{j}-{k*30}')
-# print(temp)
-# print(time_range("12:00:00", "13:00:00"), "\n")
-# print(time_range("13:00:00", "16:00:00"), "\n")
+    result, err = valid_sc(sc, sql)
+    if err:
+        return result
 
+    sid = result[0][1]
+    
+    resul, err = sql.sqadd("logs", ["ip", "info"], [ip, f'get user secret_code={sc} calendar'])
+    if err:
+        return resul
 
-# print(time_range("9:00:00", "10:00:00"), "\n")
-# print(time_range("9:00:00", "10:30:00"), "\n")
-# print(time_range("9:30:00", "10:00:00"), "\n")
-# print(time_range("9:30:00", "10:30:00"), "\n")
+    result_event, err = sql.sqsel(f"{sid}_events", ["id", "event_title", "event_des", "event_start", "event_end", "event_color"])
+    if err:
+        return result_event
 
+    # get_event operations will happen here
+    event_list = []
+    if len(result_event) > 0:
+        for i in result_event:
+            e = {
+                "event_id": int(i[0]),
+                "event_title": i[1],
+                "event_des": i[2],
+                "event_date": [
+                    str(i[3]).replace(" ", "T"),
+                    str(i[4]).replace(" ", "T")
+                ],
+                "event_color": i[5]
+            }
+            event_list.append(e)
+    
+    # get_subject operations will happen here
+    sub_list = []
+    temporary = json.loads(result[0][0])
+    if len(temporary) > 0:
+        for k, v in temporary.items():
+            class_list = []
+            section = v["section"]
+            print(k, v["year"], v["semester"], v["studyProgram"])
+            hell = gsi(k, v["year"], v["semester"], v["studyProgram"])
 
-for i in []:
-    print(i)
+            # Since ["LECT"] contains a list, we'll need to loop through them
+            #if len(hell["class"][section]["LECT"]) > 0:
+            for lect in range(0, len(hell["class"][section]["LECT"])):
+                # Since ["day"] contains a list, we'll need to loop through them
+                for day in hell["class"][section]["LECT"][lect]["day"]:
+                    class_each = []
+                    class_each.append(day)
+                    class_each.append("LECT")
+                    class_each.append([hell["class"][section]["LECT"][lect]["building"], hell["class"][section]["LECT"][lect]["Room"]])
+                    class_each.append(hell["class"][section]["LECT"][lect]["time"])
+                    class_list.append(class_each)
+
+            # Since ["LAB"] contains a list, we'll need to loop through them
+            #if len(hell["class"][section]["LAB"]) > 0:
+            for lab in range(0, len(hell["class"][section]["LAB"])):
+                # Since ["day"] contains a list, we'll need to loop through them
+                for day in hell["class"][section]["LAB"][lab]["day"]:
+                    class_each = []
+                    class_each.append(day)
+                    class_each.append("LAB")
+                    class_each.append([hell["class"][section]["LAB"][lab]["building"], hell["class"][section]["LAB"][lab]["Room"]])
+                    class_each.append(hell["class"][section]["LAB"][lab]["time"])
+                    class_list.append(class_each)
+
+            # Prepare the dictionary to be appended
+            pain = {
+                "subject_id": hell["subject_id"],
+                "subject_name": hell["subject_name"],
+                "midterm_exam": hell["midterm_exam"],
+                "final_exam": hell["final_exam"],
+                "class": class_list
+            }
+
+            sub_list.append(pain)
+
+    x = {
+        "status_code": 200,
+        "success": True,
+        "message": "Get user calendar success",
+        "data": {
+            "sub_list": sub_list,
+            "event_list": event_list
+        }
+    }
+    sql.kill_connect()
+    return x
+
+print(main())
