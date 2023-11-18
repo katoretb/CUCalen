@@ -47,6 +47,7 @@ def main():
         for k, v in temporary.items():
             class_list = []
             section = v["section"]
+            print(k, v["year"], v["semester"], v["studyProgram"])
             hell = gsi(k, v["year"], v["semester"], v["studyProgram"])
 
             # Since ["LECT"] contains a list, we'll need to loop through them
