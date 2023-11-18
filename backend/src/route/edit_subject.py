@@ -2,6 +2,7 @@ from route.func.mysql import sqry
 from flask import request, jsonify
 from route.func.validation import valid_sid, valid_token
 import json
+import sys
 
 def main():
     sql = sqry()
@@ -18,6 +19,7 @@ def main():
     if err:
         return msg
     
+    print(subjects, file=sys.stderr)
     subjs = {}
     if len(subjects) > 0:
         for i in subjects:
