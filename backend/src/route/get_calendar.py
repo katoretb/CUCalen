@@ -65,7 +65,7 @@ def main():
             #if len(hell["class"][section]["LAB"]) > 0:
             for lab in range(0, len(hell["class"][section]["LAB"])):
                 # Since ["day"] contains a list, we'll need to loop through them
-                for day in hell["class"][section]["lab"][lab]["day"]:
+                for day in hell["class"][section]["LAB"][lab]["day"]:
                     class_each = []
                     class_each.append(day)
                     class_each.append("LAB")
