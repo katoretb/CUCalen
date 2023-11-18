@@ -113,13 +113,13 @@ def gsi(c: str, y: int, se: int, sp='S'): #<====================================
     m = {"ม.ค.": 1,"ก.พ.": 2,"มี.ค.": 3,"เม.ย.": 4,"พ.ค.": 5,"มิ.ย.": 6,"ก.ค.": 7,"ส.ค.": 8,"ก.ย.": 9,"ต.ค.": 10,"พ.ย.": 11,"ธ.ค.": 12}
     try:
         temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][1]['_value'].split(" ")
-        temp2 = [f"{x}:00" for x in temp[4].split("-")]
+        temp2 = [f"{x if len(x) > 1 else '0'+x}:00" for x in temp[4].split("-")]
         tempmid = [f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[0]}', f' {int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[1]}']
     except:
         tempmid = ""
     try:
         temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][3]['_value'].split(" ")
-        temp2 = [f"{x}:00" for x in temp[4].split("-")]
+        temp2 = [f"{x if len(x) > 1 else '0'+x}:00" for x in temp[4].split("-")]
         tempfin = [f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[0]}', f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[1]}']
     except:
         tempfin = ""
