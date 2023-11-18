@@ -67,7 +67,6 @@ class sqry():
             return errmaker(500, "sql create err"), True
         
     def kill_connect(s):
-        print("kill")
         s.cursor.close()
         s.db.close()
         return
