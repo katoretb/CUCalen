@@ -29,7 +29,7 @@ def main():
                 d, err = gsi(i["courseno"], int(i["year"]), int(i["semester"]), i["studyProgram"])
                 if err:
                     return errmaker(400, f"{i['courseno']} not found or reg cu server down")
-                if len(d['class'] < int(i["section"])):
+                if len(d['class']) < int(i["section"]):
                     return errmaker(400, f"{i['courseno']} doesn't have section {i['section']}")
                 subjs[int(i["courseno"])] = {
                     "year": int(i["year"]),
