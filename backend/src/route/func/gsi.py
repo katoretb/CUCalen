@@ -1,5 +1,6 @@
 import requests
 import html_to_json
+import sys
 
 def format_class(rawtr):
     secdic = {}
@@ -113,12 +114,13 @@ def gsi(c: str, y: int, se: int, sp='S'): #<====================================
     try:
         temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][1]['_value'].split(" ")
         temp2 = [f"{x}:00" for x in temp[4].split("-")]
-        tempmid = [f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[0]}', f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[1]}']
+        tempmid = [f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[0]}', f' {int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[1]}']
     except:
         tempmid = ""
     try:
         temp = table[3]['tr'][0]['td'][0]['nobr'][0]['font'][3]['_value'].split(" ")
         temp2 = [f"{x}:00" for x in temp[4].split("-")]
+        print(temp2, file=sys.stderr)
         tempfin = [f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[0]}', f'{int(temp[2])-543}-{m[temp[1]]}-{temp[0]}T{temp2[1]}']
     except:
         tempfin = ""
