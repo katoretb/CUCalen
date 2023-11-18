@@ -107,6 +107,7 @@ def gsi(c: str, y: int, se: int, sp='S'): #<====================================
     s = requests.get(mainurl + 'CourseScheduleDtlNewServlet', params=params2, headers=headers)
     s.encoding = "TIS-620"
 
+    print(s.text)
     output_json = html_to_json.convert(s.text)
     table = output_json['html'][0]['body'][0]['form'][0]['table']
     m = {"ม.ค.": 1,"ก.พ.": 2,"มี.ค.": 3,"เม.ย.": 4,"พ.ค.": 5,"มิ.ย.": 6,"ก.ค.": 7,"ส.ค.": 8,"ก.ย.": 9,"ต.ค.": 10,"พ.ย.": 11,"ธ.ค.": 12}
