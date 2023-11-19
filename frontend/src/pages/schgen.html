@@ -1,0 +1,95 @@
+<div style="margin: 30px 30px 0px 400px;background-color: rgba(255,255,255,0.6);border-radius: 10px;padding: 20px;">
+    <h2>Profile</h2>
+    <hr>
+    <div style="margin: 30px;background-color: #FFF;border-radius: 10px;padding: 20px;">
+        <center>
+            <h3>Select part of timetable you want to be free.</h3>
+            <a>(Default is middle day break but you can uncheck them)</a>
+        </center>
+        <br>
+        <div class="container" style="width: 1100px;" id="gttft">
+            <div class="row">
+                <div class="col gtt-nav">
+                    Day/Time
+                </div>
+                <div class="col gtt-nav">
+                    8-9
+                </div>
+                <div class="col gtt-nav">
+                    9-10
+                </div>
+                <div class="col gtt-nav">
+                    10-11
+                </div>
+                <div class="col gtt-nav">
+                    11-12
+                </div>
+                <div class="col gtt-nav">
+                    12-13
+                </div>
+                <div class="col gtt-nav">
+                    13-14
+                </div>
+                <div class="col gtt-nav">
+                    14-15
+                </div>
+                <div class="col gtt-nav">
+                    15-16
+                </div>
+                <div class="col gtt-nav">
+                    16-17
+                </div>
+                <div class="col gtt-nav">
+                    17-18
+                </div>
+            </div>
+        </div>
+        <br>
+        <center>
+            <div style="width: 700px;">
+                <h3>Subject list</h3>
+                <br>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input class="form-control" id="gtt_cnadd" placeholder="Course ID" type="number" min="1">
+                        </div>
+                        <div class="col-sm">
+                            <input class="form-control" id="gtt_yradd" placeholder="Years" type="number" min="1">
+                        </div>
+                        <div class="col-sm">
+                            <input class="form-control" id="gtt_smadd" placeholder="Semester" type="number" min="1" max="3">
+                        </div>
+                        <div class="col-sm">
+                            <button type="button" class="btn btn-success" style="float: right;margin-right: 30px;" onclick="gtt_add_subj()"><i class="bi bi-plus"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-nowrap" style="border-top-left-radius: 12px;">#</th>
+                        <th scope="col">Course ID</th>
+                        <th scope="col">Years</th>
+                        <th scope="col">Semester</th>
+                        <th scope="col" class="text-nowrap" style="border-top-right-radius: 12px;">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="gtt_subjbody">
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-warning" onclick="gtt_submit_subj()">Submit</button>
+            </div>
+            <br>
+            <div>
+                <button type="button" class="btn btn-secondary" onclick="gtt_change_page(-1)"><i class="bi bi-caret-left"></i></button>
+                <a id="gttmin">-</a>/<a id="gttmax">-</a>
+                <button type="button" class="btn btn-secondary" onclick="gtt_change_page(1)"><i class="bi bi-caret-right"></i></button>
+            </div>
+            <br>
+        </center>
+        <div class="container" style="width: 1100px;" id="gttgen">
+        </div>
+    </div>
+</div>

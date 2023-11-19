@@ -39,9 +39,9 @@ async function bsl(){
     for(let i=0; i<subjs.length; i++){
         ct += `<tr>\
             <th scope="row">${i+1}</th>\
-            <td><input class="form-control" id="cn${i}" value="${subjs[i]['courseno']}" type="number" min="1"></td>\
-            <td><input class="form-control" id="sm${i}" value="${subjs[i]['semester']}" type="number" min="1" max="3"></td>\
-            <td><input class="form-control" id="st${i}" value="${subjs[i]['section']}" type="number" min="1"></td>\
+            <td><input class="form-control" id="cn${i}" placeholder="Course ID" type="number" value="${subjs[i]['courseno']}" min="1"></td>\
+            <td><input class="form-control" id="sm${i}" placeholder="Semester" type="number" value="${subjs[i]['semester']}" min="1" max="3"></td>\
+            <td><input class="form-control" id="st${i}" placeholder="Section" type="number" value="${subjs[i]['section']}" min="1"></td>\
             <td><button type="button" onclick="delsubj(${i})" class="btn btn-danger"><i class="bi bi-x-lg"></td>\
         </tr>`
     }
@@ -59,10 +59,11 @@ function delsubj(n){
 
 function addsubj(){
     var subjs = JSON.parse(sessionStorage.getItem("subjects"))
-    if(document.getElementById("cnadd").value == ""){
+    const cn = document.getElementById("cnadd").value
+    if(cn == "" || cn.length != 7){
         Swal.fire({
-            title: `Course ID is empty!`,
-            text: `Please fill Course ID to course that you will add`,
+            title: `Course ID is empty or invalid!`,
+            text: `Please fill Course ID correctly`,
             icon: 'error'
         })
         return 0;
@@ -110,11 +111,21 @@ async function submitsubj(){
         })
     }
 
+    Swal.fire({
+        title: 'Processing ...',
+        showConfirmButton: false,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        imageUrl: "https://i.giphy.com/media/IwSG1QKOwDjQk/giphy.webp"
+    })
+
     var [data, msg, stc, err] = await fetcher("edit_subject", {
         sid: getCookie("sid"),
         token: getCookie("token"),
         subjects: x
     });
+
+    Swal.close()
 
     if(err){
         Swal.fire({
@@ -124,7 +135,7 @@ async function submitsubj(){
         })
         return
     }
-    sessionStorage.removeItem("subjects");
+    // sessionStorage.removeItem("subjects");
     Swal.fire({
         title: `Registed subject successfully`,
         icon: 'success'
@@ -308,4 +319,69 @@ async function regis(){
         loadpage("home")
         return
     })
+}
+
+async function gtt_submit_subj(){
+    var raw_freetime = JSON.parse(sessionStorage.gtt_freetime)
+    var freetime2 = [
+        1,
+        {
+            "LECT": [],
+            "LAB": []
+        }
+    ]
+    var subjl = JSON.parse(sessionStorage.gtt_subjects)
+    if(subjl.length < 1){
+        Swal.fire({
+            title: `Subject list is empty!`,
+            text: `Insert at least one subject`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+        return
+    }
+
+    Object.keys(raw_freetime).forEach((item, index) => {
+        raw_freetime[item].forEach((item2, index2) => {
+            freetime2[1]["LECT"].push(
+                {
+                    "day": [index+1], 
+                    "time": [`${item2+8}:00:00`, `${item2+9}:00:00`]
+                }
+            )
+        })
+    })
+
+    var [data, msg, stc, err] = await fetcher("gtt", {
+        subj_list: subjl,
+        st_time: 8,
+        ed_time: 18,
+        freetime: freetime2
+    });
+
+    if(err){
+        if(stc == 400){
+            Swal.fire({
+                title: msg,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }else{
+            Swal.fire({
+                title: "Please contact support",
+                text: msg,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
+        return
+    }
+
+    sessionStorage.setItem('gttnum', '1')
+    sessionStorage.setItem('gttposs', JSON.stringify(data['possible']))
+    sessionStorage.setItem('gttdata', JSON.stringify(data['dataset']))
+    document.getElementById("gttmin").innerHTML = sessionStorage.getItem('gttnum')
+    document.getElementById("gttmax").innerHTML = data['possible'].length
+    gtt_show_tt()
+    return
 }
