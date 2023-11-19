@@ -1,5 +1,5 @@
-// const host = "http://kato14123.ddns.net:5001";
-const host = "http://127.0.0.1:5001";
+const host = "http://kato14123.ddns.net:5000";
+// const host = "http://127.0.0.1:5001";
 const date = new Date()
 //===========================
 function getCookie(cname) {
