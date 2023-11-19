@@ -192,7 +192,7 @@ async function regis(){
     var sid = document.getElementById("sid2").value
     if(fn == "" || !/^[A-Za-z]*$/.test(fn)){
         Swal.fire({
-            title: `Firstname is in an invalid form!`,
+            title: `Invalid Firstname!`,
             text: `Only English letters are allowed`,
             icon: 'error',
             confirmButtonText: 'OK'
@@ -204,7 +204,7 @@ async function regis(){
 
     if(ln == "" || !/^[A-Za-z]*$/.test(ln)){
         Swal.fire({
-            title: `Lastname is in an invalid form!`,
+            title: `Invalid Lastname!`,
             text: `Only English letters are allowed`,
             icon: 'error',
             confirmButtonText: 'OK'
@@ -216,7 +216,7 @@ async function regis(){
 
     if(un == "" || !/^[A-Za-z0-9]*$/.test(un)){
         Swal.fire({
-            title: `Username is in an invalid form!`,
+            title: `Invalid Username!`,
             text: `Only English letters and numbers are allowed`,
             icon: 'error',
             confirmButtonText: 'OK'
@@ -228,7 +228,7 @@ async function regis(){
 
     if(sid.length != 10 || !/^[0-9]*$/.test(sid)){
         Swal.fire({
-            title: `Student ID is in an invalid form!`,
+            title: `Invalid Student ID!`,
             text: `Student ID must be 10 digits`,
             icon: 'error',
             confirmButtonText: 'OK'
@@ -240,7 +240,7 @@ async function regis(){
 
     if(!cpwrqm()){
         Swal.fire({
-            title: `Password is in an invalid form!`,
+            title: `Invalid Password!`,
             text: `Please refer to the criteria above`,
             icon: 'error',
             confirmButtonText: 'OK'
