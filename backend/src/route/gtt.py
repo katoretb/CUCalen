@@ -26,7 +26,7 @@ def main():
             y, err = gsi(x[0], int(x[1]), int(x[2]))
             if err:
                 return errmaker(500, f'Please contact owner')
-            dataset[subj_list[i]] = y['class']
+            dataset[subj_list[i]] = y
 
         #=========================[ Define function & class]=========================
 
@@ -85,12 +85,12 @@ def main():
         #======================[ end Define function & class ]======================
 
         #Sort dataset from least section
-        dataset = dict(sorted(dataset.items(), key=lambda item: len(item[1])))
+        dataset = dict(sorted(dataset.items(), key=lambda item: len(item[1]['class'])))
 
         #Create starter subject
         possible = []
         first_subj = list(dataset.keys())[0]
-        for first_subject_section in dataset[first_subj].items():
+        for first_subject_section in dataset[first_subj]['class'].items():
             x = timetable(first_subj, first_subject_section, start_time=st_time, end_time=ed_time)
             if x.add("freetime", freetime):
                 possible.append(x)
@@ -100,7 +100,7 @@ def main():
         for i in list(dataset.keys())[1:]:
             temp_possible = []
             for j in possible:
-                for subject_section in dataset[i].items():#then loop every section
+                for subject_section in dataset[i]['class'].items():#then loop every section
                     x = deepcopy(j)
                     if x.add(i, subject_section): #try method add to all section
                         temp_possible.append(x) #if can add to temp_possible
