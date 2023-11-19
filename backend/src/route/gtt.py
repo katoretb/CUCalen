@@ -4,7 +4,6 @@ import sys
 
 from route.func.gsi import gsi
 from route.func.errmaker import errmaker
-from route.func.encrypt import encrypt_string
 
 
 def main():
