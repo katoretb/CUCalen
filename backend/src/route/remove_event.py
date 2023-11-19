@@ -2,7 +2,6 @@ from route.func.errmaker import errmaker
 from route.func.mysql import sqry
 from flask import request, jsonify
 from route.func.validation import valid_sid, valid_token
-import json
 import sys
 
 def main():
@@ -11,35 +10,28 @@ def main():
         data = request.get_json()
         sid = data["sid"]
         token = data["token"]
+        event_id = data["event_id"]
         ip = request.remote_addr
         msg, err = valid_sid(sid)
         if err:
             return msg
 
-        msg, err = valid_token(ip, sid, token, "get user", sql)
+        msg, err = valid_token(ip, sid, token, "delete event", sql)
         if err:
             return msg
         
-        result, err = sql.sqsel("users", ["username", "firstname", "lastname", "secret_code", "working_hour"], f"sid='{sid}'")
+        result, err = sql.sqdel(f"{sid}_events", f"id='{event_id}'")
         if err:
             return result
-        
-        resul, err = sql.sqadd("logs", ["ip", "info"], [ip, f'get user sid={sid} data'])
+
+        result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'delete event to user sid={sid} where id={event_id}'])
         if err:
-            return resul
-        
+            return result
+
         x = {
             "status_code": 200,
             "success": True,
-            "message": "Get user data success",
-            "data": {
-                "secret_code": result[0][3],
-                "firstname": result[0][1],
-                "lastname": result[0][2],
-                "sid": sid,
-                "username": result[0][0],
-                "working_hour": json.loads(result[0][4])
-            }
+            "message": "Delete event success"
         }
         sql.kill_connect()
         return jsonify(x)

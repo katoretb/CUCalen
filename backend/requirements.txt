@@ -3,3 +3,6 @@ mysqlclient
 python-dotenv
 qrcode
 pyotp
+flask_cors
+requests
+html_to_json

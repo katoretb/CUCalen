@@ -5,9 +5,9 @@ on:
     branches: [master, testing]
     paths: [backend/**]
     tags: [ v* ]
-  pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
-    paths: [backend/**]
+  # pull_request:
+  #   types: [opened, reopened, synchronize, ready_for_review]
+  #   paths: [backend/**]
 
 env:
   # Use docker.io for Docker Hub (Default) / Use ghcr.io for GitHub Container Registry
@@ -27,6 +27,15 @@ jobs:
       -
         name: Checkout repository
         uses: actions/checkout@v3
+      -
+        name: Make ENVFILE
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_HOST: ${{ secrets.DB_HOST }}
+          envkey_USER: ${{ secrets.DB_USER }}
+          envkey_PASS: ${{ secrets.DB_PASS }}
+          file_name: .env
+          directory: ./backend/src/route/func/
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -62,11 +71,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       -
+        name: DETECTIVE
+        run: |
+          ls -lhA
+          ls -lhA ./backend/src/route/func
+          cat ./backend/src/route/func/.env
+      -
         name: Build and Push Docker Image
         id: build-and-push
         uses: docker/build-push-action@v5
         with:
-          context: "{{defaultContext}}:backend"
+          context: "./backend"
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

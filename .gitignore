@@ -1,4 +1,7 @@
 .env
+.venv/
+*.swp
 __pycache__
 test.py
+test2.py
 .DS_Store

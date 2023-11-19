@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'Prompt', sans-serif;
+            }
+            .fc-event-title {
+                font-size: 70%;
+            }
+        </style>
+        <meta charset='utf-8' />
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    </head>
+    <body>
+        <div id='calendar'></div>
+    </body>
+</html>
+<script>
+    const host = "http://127.0.0.1:5001";
+    // const host = "http://127.0.0.1:5000";
+
+    function getColor(str, opts){
+        var h, s, l;
+        opts = opts || {};
+        opts.hue = opts.hue || [0, 360];
+        opts.sat = opts.sat || [75, 100];
+        opts.lit = opts.lit || [40, 60];
+
+        var range = function(hash, min, max) {
+            var diff = max - min;
+            var x = ((hash % diff) + diff) % diff;
+            return x + min;
+        }
+
+        var hash = 0;
+        if (str.length === 0) return hash;
+        for (var i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            hash = hash & hash;
+        }
+
+        h = range(hash, opts.hue[0], opts.hue[1]);
+        s = range(hash, opts.sat[0], opts.sat[1]);
+        l = range(hash, opts.lit[0], opts.lit[1]);
+
+        return `hsl(${h}, ${25 + 70 * (s/100)}%, ${85 + 10 * (l/100)}%)`;
+    }
+
+    async function fetcher(path, bd){
+        const response = await fetch(host + `/${path}`, {
+            method: 'POST',
+            body: JSON.stringify(bd),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        var data = await response.json();
+        if(data["success"]){
+            return[data["data"], data["message"], data["status_code"], false]
+        }
+        return[{}, data["message"], data["status_code"], true]    
+    }
+
+    async function load_event(sc){
+        var returner = []
+        var [data, msg, stc, err] = await fetcher("get_calendar", {secret_code: sc});
+        data['sub_list'].forEach((item, index) => {
+            var cn = item['subject_name']
+            cn = cn.replace("GENERAL", 'GEN').replace("BIOLOGY", 'BIO').replace("PROGRAMMING", 'PROG').replace("CALCULUS", 'CAL').replace(" LAB", '')
+            if(item['midterm_exam'] != ''){
+                returner.push(
+                    {
+                        title: `MID ${cn}`,
+                        start: item['midterm_exam'][0].replace(" ", ''),
+                        end: item['midterm_exam'][1].replace(" ", ''),
+                        color: '#9e1515'
+                    }
+                )
+            }
+            if(item['final_exam'] != ''){
+                returner.push(
+                    {
+                        title: `FIN ${cn}`,
+                        start: item['final_exam'][0].replace(" ", ''),
+                        end: item['final_exam'][1].replace(" ", ''),
+                        color: '#9e1515'
+                    }
+                )
+            }
+            var col = getColor(cn)
+            item['class'].forEach((item2, index2) => {
+                returner.push(
+                    {
+                        title: `${item2[1]} ${cn} ${item2[2][0]} ${item2[2][1]}`,
+                        daysOfWeek: [`${item2[0]}`],
+                        startTime: item2[3][0],
+                        endTime: item2[3][1],
+                        color: col,
+                        textColor: 'black'
+                    }
+                )
+            })
+        });
+        return returner;
+    }
+
+    calen_build()
+
+    async function calen_build(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        if(urlParams.has('type') && urlParams.has('sc')){
+            var y = await load_event(urlParams.get('sc'))
+            var calendarEl = document.getElementById('calendar');
+            // var calendar = new FullCalendar.Calendar(calendarEl, {
+            //     headerToolbar: {
+            //         left: '',
+            //         center: 'title',
+            //         right: ''
+            //     },
+            //     aspectRatio: 1.8,
+            //     initialView: 'dayGridMonth',
+            //     events: ,
+            //     eventTimeFormat: {
+            //         hour: 'numeric',
+            //         minute: '2-digit',
+            //         hour12: false
+            //     },
+            //         eventDisplay: 'block'
+            // });
+            var x = {}
+            if(urlParams.get('type') == "day"){
+                x = {
+                    headerToolbar: {
+                        left: '',
+                        center: 'title',
+                        right: ''
+                    },
+                    height: 1400,
+                    initialView: 'timeGridWeek',
+                    events: y,
+                    eventTimeFormat: {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: false
+                    },
+                    eventDisplay: 'block'
+                }
+            }
+            if(urlParams.get('type') == "month"){
+                x = {
+                    headerToolbar: {
+                        left: '',
+                        center: 'title',
+                        right: ''
+                    },
+                    aspectRatio: 2,
+                    height: 900,
+                    initialView: 'dayGridMonth',
+                    events: y,
+                    eventTimeFormat: {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: false
+                    },
+                    eventDisplay: 'block'
+                }
+            }
+            var calendar = new FullCalendar.Calendar(calendarEl, x)
+            calendar.render();
+        }
+    }
+
+    async function fetcher(path, bd){
+        const response = await fetch(host + `/${path}`, {
+            method: 'POST',
+            body: JSON.stringify(bd),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        var data = await response.json();
+        if(data["success"]){
+            return[data["data"], data["message"], data["status_code"], false]
+        }
+        return[{}, data["message"], data["status_code"], true]
+        
+    }
+</script>
