@@ -109,7 +109,7 @@ def main():
         #convert list of class to list of subject and section
         pos = []
         for i in possible:
-            pos.append(i.cidlis)
+            pos.append(i.cidlist)
 
         x = {
             "status_code": 200,
