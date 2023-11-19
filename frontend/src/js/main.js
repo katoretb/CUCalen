@@ -67,9 +67,9 @@ async function setpage(){
 }
 
 function setframe(){
-    document.getElementById('monthgrid_link').setAttribute('onclick', `navigator.clipboard.writeText('${window.location.origin}/calendar.html?type=month&sc=${getCookie("secret_code")}')`)
+    document.getElementById('monthgrid_link').value = `${window.location.origin}/calendar.html?type=month&sc=${getCookie("secret_code")}`
     document.getElementById('monthgrid_show').src = `../calendar.html?type=month&sc=${getCookie("secret_code")}`
-    document.getElementById('daygrid_link').setAttribute('onclick', `navigator.clipboard.writeText('${window.location.origin}/calendar.html?type=day&sc=${getCookie("secret_code")}')`)
+    document.getElementById('daygrid_link').value = `${window.location.origin}/calendar.html?type=day&sc=${getCookie("secret_code")}`
     document.getElementById('daygrid_show').src = `../calendar.html?type=day&sc=${getCookie("secret_code")}`
     return
 }
