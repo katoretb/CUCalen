@@ -10,8 +10,8 @@ info ....
    - [Get user data](#u3) :white_check_mark:
    - [Edit user data](#u4) :white_check_mark:
  - [Calendar](#c)
-   - [Get calendar](#c1) :hourglass_flowing_sand:
-   - [Get event](#c2) :white_check_mark::heavy_exclamation_mark:
+   - [Get calendar](#c1) :white_check_mark:
+   - [Get event](#c2) :white_check_mark:
    - [Add event](#c3) :white_check_mark:
    - [Remove event](#c4) :white_check_mark:
    - [Edit event](#c5) :white_check_mark:
