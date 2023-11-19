@@ -71,7 +71,7 @@ function addsubj(){
     if(document.getElementById("smadd").value == ""){
         Swal.fire({
             title: `Semester is unspecified!`,
-            text: `Please fill semester to added courses`,
+            text: `Please fill semester to selected courses`,
             icon: 'error'
         })
         return 0;
@@ -79,7 +79,7 @@ function addsubj(){
     if(document.getElementById("stadd").value == ""){
         Swal.fire({
             title: `Section is unspecified!`,
-            text: `Please fill section to added courses`,
+            text: `Please fill section to selected courses`,
             icon: 'error'
         })
         return 0;
@@ -298,7 +298,7 @@ async function regis(){
     }).then(() => {
         Swal.fire({
             title: `Recovery code`,
-            text: `Please scan the QR code using the authenticator app on your smartphone in case of losing a password`,
+            text: `Please scan this QR code using the authenticator app on your smartphone in case of losing a password`,
             imageUrl: data['qr'],
             icon: 'warning',
             confirmButtonText: 'OK'
