@@ -34,7 +34,7 @@ function logout(){
     setmenu("login")
     setpage()
     Swal.fire({
-        title: `Logout successfully`,
+        title: `Logged out`,
         icon: 'success'
     })
     return
@@ -220,7 +220,7 @@ function ccpw(){
         document.getElementById("ccpw").innerHTML = ""
         return true
     }else{
-        document.getElementById("ccpw").innerHTML = "<a style='color: #575757'>Password not match</a>"
+        document.getElementById("ccpw").innerHTML = "<a style='color: #575757'>Passwords do not match</a>"
         return false
     }
 }
@@ -228,7 +228,7 @@ function ccpw(){
 function askcookie(){
     if(getCookie("allowcookie") == ''){
         Swal.fire({
-            title: "Do you allow us to use cookie to store necessary data?",
+            title: "Do you allow use of cookies to store necessary data?",
             showDenyButton: true,
             icon: "warning",
             confirmButtonText: "Allow",
@@ -321,7 +321,7 @@ function gtt_add_subj(){
     const sm = document.getElementById("gtt_smadd").value
     if(cn == "" || cn.length != 7){
         Swal.fire({
-            title: `Course ID is empty or invalid!`,
+            title: `Course ID is invalid/unspecified!`,
             text: `Please fill Course ID correctly`,
             icon: 'error'
         })
@@ -329,7 +329,7 @@ function gtt_add_subj(){
     }
     if(yr == ""){
         Swal.fire({
-            title: `Year is empty!`,
+            title: `Year is unspecified!`,
             text: `Please fill Year correctly`,
             icon: 'error'
         })
@@ -337,7 +337,7 @@ function gtt_add_subj(){
     }
     if(sm == ""){
         Swal.fire({
-            title: `Semester is empty!`,
+            title: `Semester is unspecified!`,
             text: `Please fill Semester correctly`,
             icon: 'error'
         })
