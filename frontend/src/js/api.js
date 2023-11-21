@@ -24,7 +24,7 @@ async function getsubj(sc){
     if(err){
         Swal.fire({
             title: `Error ${stc}!`,
-            text: `${msg}\nplease contact web owner`,
+            text: `${msg}\nPlease contact web administrator`,
             icon: 'error'
         })
         return 1
@@ -62,7 +62,7 @@ function addsubj(){
     const cn = document.getElementById("cnadd").value
     if(cn == "" || cn.length != 7){
         Swal.fire({
-            title: `Course ID is empty or invalid!`,
+            title: `Course ID is invalid/unspecified!`,
             text: `Please fill Course ID correctly`,
             icon: 'error'
         })
@@ -70,16 +70,16 @@ function addsubj(){
     }
     if(document.getElementById("smadd").value == ""){
         Swal.fire({
-            title: `Semester is empty!`,
-            text: `Please fill semester to course that you will add`,
+            title: `Semester is unspecified!`,
+            text: `Please fill semester to selected courses`,
             icon: 'error'
         })
         return 0;
     }
     if(document.getElementById("stadd").value == ""){
         Swal.fire({
-            title: `Section is empty!`,
-            text: `Please fill section to course that you will add`,
+            title: `Section is unspecified!`,
+            text: `Please fill section to selected courses`,
             icon: 'error'
         })
         return 0;
@@ -130,14 +130,14 @@ async function submitsubj(){
     if(err){
         Swal.fire({
             title: `Error ${stc}!`,
-            text: `${msg}\nplease contact web owner`,
+            text: `${msg}\nPlease contact web administrator`,
             icon: 'error'
         })
         return
     }
     // sessionStorage.removeItem("subjects");
     Swal.fire({
-        title: `Registed subject successfully`,
+        title: `Subjects added`,
         icon: 'success'
     })
     return
@@ -168,7 +168,7 @@ async function login(){
     }
 
     Swal.fire({
-        title: `Sign-in successfully`,
+        title: `Signed in`,
         icon: 'success',
         confirmButtonText: 'OK'
     }).then(() => {
@@ -192,8 +192,8 @@ async function regis(){
     var sid = document.getElementById("sid2").value
     if(fn == "" || !/^[A-Za-z]*$/.test(fn)){
         Swal.fire({
-            title: `Firstname invalid form!`,
-            text: `Firstname must contain only english alphabet`,
+            title: `Invalid Firstname!`,
+            text: `Only English letters are allowed`,
             icon: 'error',
             confirmButtonText: 'OK'
         }).then(() => {
@@ -204,8 +204,8 @@ async function regis(){
 
     if(ln == "" || !/^[A-Za-z]*$/.test(ln)){
         Swal.fire({
-            title: `Lastname invalid form!`,
-            text: `Lastname must contain only english alphabet`,
+            title: `Invalid Lastname!`,
+            text: `Only English letters are allowed`,
             icon: 'error',
             confirmButtonText: 'OK'
         }).then(() => {
@@ -216,8 +216,8 @@ async function regis(){
 
     if(un == "" || !/^[A-Za-z0-9]*$/.test(un)){
         Swal.fire({
-            title: `Username invalid form!`,
-            text: `Username must contain only english alphabet and number`,
+            title: `Invalid Username!`,
+            text: `Only English letters and numbers are allowed`,
             icon: 'error',
             confirmButtonText: 'OK'
         }).then(() => {
@@ -228,8 +228,8 @@ async function regis(){
 
     if(sid.length != 10 || !/^[0-9]*$/.test(sid)){
         Swal.fire({
-            title: `Student ID invalid form!`,
-            text: `Student ID must contain only number and 10 characters`,
+            title: `Invalid Student ID!`,
+            text: `Student ID must be 10 digits`,
             icon: 'error',
             confirmButtonText: 'OK'
         }).then(() => {
@@ -240,8 +240,8 @@ async function regis(){
 
     if(!cpwrqm()){
         Swal.fire({
-            title: `Password invalid form!`,
-            text: `You must fix your password as describe first`,
+            title: `Invalid Password!`,
+            text: `Please refer to the criteria above`,
             icon: 'error',
             confirmButtonText: 'OK'
         }).then(() => {
@@ -252,8 +252,8 @@ async function regis(){
 
     if(!ccpw()){
         Swal.fire({
-            title: `Confirm password not match!`,
-            text: `Please fix your confirm password`,
+            title: `Passwords do not match!`,
+            text: `Please try again`,
             icon: 'error',
             confirmButtonText: 'OK'
         }).then(() => {
@@ -292,13 +292,13 @@ async function regis(){
     document.cookie = `sid=${sid}`
     document.cookie = `token=${data['token']}`
     Swal.fire({
-        title: `Sign-up successfully`,
+        title: `Signed up`,
         icon: 'success',
         confirmButtonText: 'OK'
     }).then(() => {
         Swal.fire({
-            title: `Recovery authentication`,
-            text: `Use your authentication app scan this to use for recovery or change the password`,
+            title: `Recovery code`,
+            text: `Please scan this QR code using the authenticator app on your smartphone in case of losing a password`,
             imageUrl: data['qr'],
             icon: 'warning',
             confirmButtonText: 'OK'
@@ -334,7 +334,7 @@ async function gtt_submit_subj(){
     if(subjl.length < 1){
         Swal.fire({
             title: `Subject list is empty!`,
-            text: `Insert at least one subject`,
+            text: `Specify at least one subject`,
             icon: 'error',
             confirmButtonText: 'OK'
         })
