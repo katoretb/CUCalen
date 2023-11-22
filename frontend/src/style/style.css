@@ -84,6 +84,14 @@ html {
   background-color: #2cba52;
 }
 
+.libotpbut {
+  background-color: #4dc96e;
+}
+
+.libotpbut:hover {
+  background-color: #2cba52;
+}
+
 .regbut {
   background-color: #4f96c2;
 }
