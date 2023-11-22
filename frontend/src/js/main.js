@@ -154,6 +154,9 @@ function loadmenu(visible){
     }else if(visible == "login"){
         document.getElementById("login").style.display = 'block';
         document.getElementById('libut').style.display = 'block';
+    }else if(visible == "loginbyotp"){
+        document.getElementById("loginbyotp").style.display = 'block';
+        document.getElementById('libotpbut').style.display = 'block';
     }else{
         document.getElementById('regis').style.display = 'block';
         document.getElementById('regbut').style.display = 'block';
