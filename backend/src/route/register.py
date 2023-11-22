@@ -120,4 +120,4 @@ def main():
         return jsonify(x)
     except Exception as error:
         print(error, file=sys.stderr)
-        return errmaker(500, f'Please contact web administrator')
+        return errmaker(500, f'Please contact owner')
