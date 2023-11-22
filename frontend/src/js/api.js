@@ -185,6 +185,49 @@ async function login(){
     })
 }
 
+async function loginbyotp(){
+    //var hotp = await hash(document.getElementById("otp").value)
+    var otp = document.getElementById("otp").value
+    var [data, msg, stc, err] = await fetcher("loginbyotp", {
+        sid: document.getElementById("sid1").value,
+        otp: otp
+    });
+    if(err){
+        if(stc == 400){
+            Swal.fire({
+                title: msg,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }else{
+            Swal.fire({
+                title: "Please contact support",
+                text: msg,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
+        return
+    }
+
+    Swal.fire({
+        title: `Signed in`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+    }).then(() => {
+        document.cookie = `sid=${data['sid']}`
+        document.cookie = `token=${data['token']}`
+        document.cookie = `secret_code=${data['secret_code']}`
+        document.cookie = `firstname=${data['firstname']}`
+        document.cookie = `lastname=${data['lastname']}`
+        document.cookie = `username=${data['username']}`
+        document.cookie = `working_hour=${JSON.stringify(data['working_hour'])}`
+        setmenu("main")
+        loadpage("home")
+        return
+    })
+}
+
 async function regis(){
     var fn = document.getElementById("fn").value
     var ln = document.getElementById("ln").value
