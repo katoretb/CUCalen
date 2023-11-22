@@ -11,6 +11,7 @@ This saves the student from having to deal with headaches rising from having to 
  - [User](#u)
    - [Register](#u1) :white_check_mark:
    - [Login](#u2) :white_check_mark:
+   - [Login by otp](#uotp)
    - [Get user data](#u3) :white_check_mark:
    - [Edit user data](#u4) :white_check_mark:
  - [Calendar](#c)
@@ -59,6 +60,28 @@ Payload
 {
     sid: string,
     password: string(sha256)
+}
+```
+
+Response
+```js
+{
+    status_code: int,
+    success: boolean,
+    message: string,
+    data: {
+        token: string
+    }
+}
+```
+
+- #### <a name="uotp"></a>login_by_otp (POST)
+
+Payload
+```js
+{
+    sid: string,
+    otp: string
 }
 ```
 
