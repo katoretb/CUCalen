@@ -29,7 +29,7 @@ def main():
             return result
 
         if len(result) != 0:
-            return errmaker(400, "user already exist")
+            return errmaker(400, "The user already exists")
 
         default_working_hour = []
         for i in range(7):
@@ -120,4 +120,4 @@ def main():
         return jsonify(x)
     except Exception as error:
         print(error, file=sys.stderr)
-        return errmaker(500, f'Please contact owner')
+        return errmaker(500, f'Please contact web administrator')
