@@ -144,8 +144,10 @@ function loadmenu(visible){
     document.getElementById("mainmenu").style.display = 'none';
     document.getElementById("regis").style.display = 'none';
     document.getElementById("login").style.display = 'none';
+    document.getElementById("loginbyotp").style.display = 'none';
     document.getElementById("regbut").style.display = 'none';
     document.getElementById("libut").style.display = 'none';
+    document.getElementById("libotpbut").style.display = 'none';
     if(visible == "main"){
         document.getElementById("mainmenu").style.display = 'block';
         document.getElementById("lobut").style.display = 'block';
