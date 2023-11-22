@@ -1,8 +1,12 @@
-# CUcalendar
+# CU CALENDAR
 
-info ....
+CU CALENDAR is a calendar web application designed for students at Chulalongkorn University.
+For that reason, there are many features in the app that are tailored to them,
+like automatically pulling their schedule based on their course list from the university’s official site.
+But one killer feature of it is the ability to generate all possible timetables of any given course list.
+This saves the student from having to deal with headaches rising from having to design their own schedule manually.
 
-## API
+## API PAYLOAD & RESPONSE
 
  - [User](#u)
    - [Register](#u1) :white_check_mark:
@@ -412,3 +416,4 @@ Response
     }
 }
 ```
+
