@@ -84,6 +84,14 @@ html {
   background-color: #2cba52;
 }
 
+.libotpbut {
+  background-color: #4dc96e;
+}
+
+.libotpbut:hover {
+  background-color: #2cba52;
+}
+
 .regbut {
   background-color: #4f96c2;
 }
@@ -105,6 +113,17 @@ html {
 }
 
 .fgpw:hover{
+   color:#041ea1;
+   cursor: pointer;
+}
+
+.rmpw {
+  color:white;
+  text-decoration: none;
+  transition: 0.15s;
+}
+
+.rmpw:hover{
    color:#041ea1;
    cursor: pointer;
 }

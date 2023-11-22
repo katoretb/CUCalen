@@ -126,7 +126,26 @@
                                 <button class="btn btn-outline-secondary" id="vb1" style="font-size: 1.5em;" onclick="showpass('pass1', 'vb1')" type="button"><i class="bi bi-eye-slash"></i></button>
                             </div>
                         </div>
-                        <a><a class="fgpw">Forgot password?</a><a class="subt" onclick="setmenu('regis')">Sign up</a></a>
+                        <a><a class="fgpw" onclick="setmenu('loginbyotp')">Forgot password?</a><a class="subt" onclick="setmenu('regis')">Sign up</a></a>
+                    </div>
+                    <div id="loginbyotp">
+                        <h1 style="color: white;">Sign in</h1>
+                        <div class="input-group mb-3" style="background-color: white;border-radius: var(--bs-border-radius);">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i style="font-size: 1.5em;" class="bi bi-fingerprint"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Student ID" id="sid1">
+                        </div>
+                        <div class="input-group mb-3" style="background-color: white;border-radius: var(--bs-border-radius);">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i style="font-size: 1.5em;" class="bi bi-key-fill"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="TOTP (Authenticator)" id="otp">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" id="vbotp" style="font-size: 1.5em;" onclick="showpass('otp', 'vbotp')" type="button"><i class="bi bi-eye-slash"></i></button>
+                            </div>
+                        </div>
+                        <a><a class="rmpw" onclick="setmenu('login')">Remembered password?</a><a class="subt" onclick="setmenu('regis')">Sign up</a></a>
                     </div>
                 </ul>
                 <hr>
@@ -141,6 +160,12 @@
                         <strong>
                             <i class="bi bi-caret-right-fill"></i>
                             Sign in
+                        </strong>
+                    </a>
+                    <a id="libotpbut" class="nav-link text-white libotpbut but" onclick="loginbyotp()">
+                        <strong>
+                            <i class="bi bi-caret-right-fill"></i>
+                            Sign in with TOTP
                         </strong>
                     </a>
                     <a id="regbut" class="nav-link text-white regbut but" onclick="regis()">
