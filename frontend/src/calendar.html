@@ -20,7 +20,7 @@
     </body>
 </html>
 <script>
-    const host = "http://127.0.0.1:5001";
+    const host = "http://kato14123.ddns.net:5000";
     // const host = "http://127.0.0.1:5000";
 
     function getColor(str, opts){
@@ -68,6 +68,17 @@
     async function load_event(sc){
         var returner = []
         var [data, msg, stc, err] = await fetcher("get_calendar", {secret_code: sc});
+        data['event_list'].forEach((item, index) => {
+            returner.push(
+                {
+                    title: item['event_title'],
+                    start: item['event_date'][0],
+                    end: item['event_date'][1],
+                    color: item['event_color'],
+                    description: item['event_des']
+                }
+            )
+        })
         data['sub_list'].forEach((item, index) => {
             var cn = item['subject_name']
             cn = cn.replace("GENERAL", 'GEN').replace("BIOLOGY", 'BIO').replace("PROGRAMMING", 'PROG').replace("CALCULUS", 'CAL').replace(" LAB", '')
