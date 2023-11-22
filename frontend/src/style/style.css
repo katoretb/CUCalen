@@ -117,6 +117,17 @@ html {
    cursor: pointer;
 }
 
+.rmpw {
+  color:white;
+  text-decoration: none;
+  transition: 0.15s;
+}
+
+.rmpw:hover{
+   color:#041ea1;
+   cursor: pointer;
+}
+
 .subt {
   font-weight: 1000;
   float: right;
