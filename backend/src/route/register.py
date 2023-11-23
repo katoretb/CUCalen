@@ -29,7 +29,7 @@ def main():
             return result
 
         if len(result) != 0:
-            return errmaker(400, "The user already exists")
+            return errmaker(400, "User already exists")
 
         default_working_hour = []
         for i in range(7):
