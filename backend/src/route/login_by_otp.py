@@ -36,7 +36,7 @@ def main():
             result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'trying to login_by_otp to sid={sid} but otp is not correct'])
             if err:
                 return result
-            return errmaker(400, "Authentication Failed! Please Retry")
+            return errmaker(400, "Authentication Failed!")
         
         result, err = sql.squpd("users", {"token": f"'{json.dumps(token)}'"}, f"sid='{sid}'")
         if err:

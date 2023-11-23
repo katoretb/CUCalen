@@ -340,8 +340,8 @@ async function regis(){
         confirmButtonText: 'OK'
     }).then(() => {
         Swal.fire({
-            title: `Recovery code`,
-            text: `Please scan this QR code using the authenticator app on your smartphone in case of losing a password`,
+            title: `Recovery Code`,
+            text: `Please scan this QR code using the authenticator app on your smartphone as a second method of authentication (by using TOTP)`,
             imageUrl: data['qr'],
             icon: 'warning',
             confirmButtonText: 'OK'
