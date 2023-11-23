@@ -7,6 +7,7 @@ from route.func.validation import valid_sid
 import json
 from route.func.errmaker import errmaker
 import pyotp
+import time
 import sys
 
 def main():
@@ -14,30 +15,28 @@ def main():
         sql = sqry()
         data = request.get_json()
         sid = data["sid"]
-        password = data["password"]
+        otp = data["otp"]
         ip = request.remote_addr
         msg, err = valid_sid(sid)
         if err:
             return msg
 
-        result, err = sql.sqsel("users", ["password", "token"], f"sid='{sid}'")
+        result, err = sql.sqsel("users", ["authkey", "token"], f"sid='{sid}'")
         if err:
             return result
 
         if len(result) == 0:
             return errmaker(400, "User not found")
-        pas = result[0][0].split("$")
-        salt = pas[1]
-        check_pass = pas[0]
-        password = encrypt_string(password+salt, "sha256")
+        authkey = result[0][0]
         token = json.loads(result[0][1])
         token[ip] = encrypt_string(''.join(choice(ascii_letters+digits) for i in range(20))+sid+ip, "sha256")
 
-        if password != check_pass:
-            result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'trying to login to sid={sid} but password is not correct'])
+        # pyotp.TOTP('base32secret3232').verify('492039') => True
+        if not pyotp.TOTP(authkey).verify(otp):
+            result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'trying to login_by_otp to sid={sid} but otp is not correct'])
             if err:
                 return result
-            return errmaker(400, "Password is incorrect")
+            return errmaker(400, "Authentication Failed! Please Retry")
         
         result, err = sql.squpd("users", {"token": f"'{json.dumps(token)}'"}, f"sid='{sid}'")
         if err:
