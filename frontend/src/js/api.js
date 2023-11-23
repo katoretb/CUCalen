@@ -189,7 +189,7 @@ async function loginbyotp(){
     //var hotp = await hash(document.getElementById("otp").value)
     var otp = document.getElementById("otp").value
     var [data, msg, stc, err] = await fetcher("login_by_otp", {
-        sid: document.getElementById("sid1").value,
+        sid: document.getElementById("sidotp").value,
         otp: otp
     });
     if(err){
