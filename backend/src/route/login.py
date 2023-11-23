@@ -24,7 +24,7 @@ def main():
             return result
 
         if len(result) == 0:
-            return errmaker(400, "user not found")
+            return errmaker(400, "User not found")
         pas = result[0][0].split("$")
         salt = pas[1]
         check_pass = pas[0]
@@ -36,7 +36,7 @@ def main():
             result, err = sql.sqadd("logs", ["ip", "info"], [ip, f'trying to login to sid={sid} but password is not correct'])
             if err:
                 return result
-            return errmaker(400, "password is not correct")
+            return errmaker(400, "Password is incorrect")
         
         result, err = sql.squpd("users", {"token": f"'{json.dumps(token)}'"}, f"sid='{sid}'")
         if err:
