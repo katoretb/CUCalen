@@ -6,6 +6,7 @@ from route.func.encrypt import encrypt_string
 from route.func.validation import valid_sid
 import json
 from route.func.errmaker import errmaker
+import pyotp
 import sys
 
 def main():
